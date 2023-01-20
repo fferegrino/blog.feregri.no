@@ -4,7 +4,7 @@ const siteMeta = {
 		"Machine Learning Engineer at Simply Business – Data+Software – Edutuber – Interesado en Machine Learning en producción, andar en bicicleta, el futuro sin trabajo y Lego 🇲🇽 🇬🇧",
 	lang: "es-ES",
 	ogLocale: "es_ES",
-	githubUrl: "https://github.com/gndx/gndx.dev",
+	githubUrl: "https://github.com/fferegrino/feregri.no",
 	themeColorLight: "#fafafa",
 	themeColorDark: "#1d1f21",
 };

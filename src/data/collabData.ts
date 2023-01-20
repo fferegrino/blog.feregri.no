@@ -26,9 +26,14 @@ const collabData = [
 	},
 	{
 		title: "Herramientas para trabajar con Python",
-		loc: 'la PyCon Latam 2020',
+		loc: 'la PyCon Latam 2021',
 		url: "https://www.youtube.com/watch?v=Btfx9kAE404"
 	},
+	{
+		title: "Usando GitHub Actions y Python para hacer web scraping",
+		loc:  "la PyCon Latam 2022",
+		url: "https://www.youtube.com/watch?v=yRPuAAugMgA"
+	}
 ];
 
 export default collabData;
