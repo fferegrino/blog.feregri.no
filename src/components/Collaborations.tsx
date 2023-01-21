@@ -4,7 +4,6 @@ import collabData from "../data/collabData";
 import randomPosts from "../utils/randomPosts";
 import { CollectionProps } from "./CollectionProps";
 
-
 interface CourseDataProps {
 	title: String;
 	url: string;
@@ -25,15 +24,13 @@ const Collaborations = ({ max, random }: CollectionProps) => {
 							className="h-10 w-10 flex-none rounded-full"
 						/>
 						<div className="ml-4 flex-auto">
-							<div className="w-60 font-bold">
-									{course?.title}
-							</div>
+							<div className="w-60 font-bold">{course?.title}</div>
 							<div className="w-60 font-medium">
 								<a href={course?.url} target="_blank">
-								en {course?.loc}
+									en {course?.loc}
 								</a>
 							</div>
-							
+
 							{/* <div className="mt-1 flex items-center text-slate-500">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
@@ -51,7 +48,6 @@ const Collaborations = ({ max, random }: CollectionProps) => {
 								</svg>
 								{{course?.reviews}}
 							</div> */}
-							
 						</div>
 					</div>
 				</div>

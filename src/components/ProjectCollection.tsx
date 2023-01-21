@@ -12,7 +12,6 @@ interface ProjectProps {
 }
 
 const ProjectCollection = ({ max }: CollectionProps) => {
-	
 	return (
 		<div className="mt-8 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-2">
 			{projectData?.slice(0, max).map((course: ProjectProps) => (
@@ -24,14 +23,12 @@ const ProjectCollection = ({ max }: CollectionProps) => {
 							className="h-10 w-10 flex-none rounded-full"
 						/>
 						<div className="ml-4 flex-auto">
-							<div className="w-60 font-bold">
-									{course?.name}
-							</div>
-							<div className="w-60 font-medium">
-								{course?.description}
-							</div>
+							<div className="w-60 font-bold">{course?.name}</div>
+							<div className="w-60 font-medium">{course?.description}</div>
 							<div className="w-30">
-								<a href={course?.link} target="_blank"><LinkIcon className="h-3 w-3 text-blue-500 inline" /> view</a>
+								<a href={course?.link} target="_blank">
+									<LinkIcon className="inline h-3 w-3 text-blue-500" /> view
+								</a>
 							</div>
 						</div>
 					</div>
