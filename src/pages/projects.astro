@@ -1,0 +1,23 @@
+---
+import PageLayout from "@/layouts/Base";
+import ProjectCollection from "src/components/ProjectCollection";
+
+const meta = {
+	title: "Colaboraciones de Antonio Feregrino",
+	description: "¿Quieres aprender JavaScript?",
+};
+---
+
+<PageLayout meta={meta}>
+	<div class="pt-8 pb-8 prose prose-sm prose-cactus max-w-none xl:col-span-2">
+		<h1 id="¿quién-soy">
+			<a href="#¿quién-soy" aria-hidden="true" tabindex="-1"
+				><span class="icon icon-link"></span>
+			</a>Projects
+		</h1>
+		<p>
+			Additionally, <a href="https://dev.to/fferegrino">I write in dev.to</a> (mostly in english), sometimes I also <a href="https://www.tacosdedatos.com/ioexception" target="_blank">publish my work in Tacos De Datos</a> and, and lastly in <a href="https://feregri.no/blog">my personal blog</a>.
+		</p>
+		<ProjectCollection max={40} />
+	</div>
+</PageLayout>

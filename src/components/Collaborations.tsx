@@ -2,11 +2,8 @@ import { StarIcon } from "@heroicons/react/24/solid/index.js";
 import { UserCircleIcon } from "@heroicons/react/24/outline/index.js";
 import collabData from "../data/collabData";
 import randomPosts from "../utils/randomPosts";
+import { CollectionProps } from "./CollectionProps";
 
-interface CoursesProps {
-	max: number;
-	random?: boolean;
-}
 
 interface CourseDataProps {
 	title: String;
@@ -15,7 +12,7 @@ interface CourseDataProps {
 	badge: string;
 }
 
-const Collaborations = ({ max, random }: CoursesProps) => {
+const Collaborations = ({ max, random }: CollectionProps) => {
 	const courses = random ? randomPosts(collabData) : collabData;
 	return (
 		<div className="mt-8 grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-2">
