@@ -1,2 +1,4 @@
 requests
 Jinja2
+imagekitio
+jupyter
