@@ -25,3 +25,10 @@ pnpm-debug.log*
 
 # Python
 .venv/
+
+# Pycharm
+.idea/
+
+# Jupyter
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
