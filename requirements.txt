@@ -2,3 +2,7 @@ requests
 Jinja2
 imagekitio
 jupyter
+jupyterlab
+jupytext
+Pillow
+python-dotenv
