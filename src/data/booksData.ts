@@ -29,7 +29,7 @@ const booksData = [
 			{
 				title: "The Cartoon Guide to Statistics",
 				description:
-					'¿Sientes que quieres reforzar tus conocimientos pero de forma más informal, “**The Cartoon Guide to Statistics**” es tu libro. No dejes que su portada te engañe, no creo que sea un libro introductorio, más bien uno que puedes agarrar después de conocer un poquito las bases 🟠',
+					"¿Sientes que quieres reforzar tus conocimientos pero de forma más informal, “**The Cartoon Guide to Statistics**” es tu libro. No dejes que su portada te engañe, no creo que sea un libro introductorio, más bien uno que puedes agarrar después de conocer un poquito las bases 🟠",
 				rating: 3,
 				author: "Larry Gonick",
 				isbn: "0062731025",
@@ -37,7 +37,7 @@ const booksData = [
 			{
 				title: "Think Stats",
 				description:
-					'Pasando a los libros que tienen código, tenemos “**Think Stats**”… este no me gustó tanto, no es un libro introductorio a Python y a estadísticas, es bueno si ya sabes un poco de Python y un poco de estadística, y te muestra cómo representar este conocimiento programado 🟠',
+					"Pasando a los libros que tienen código, tenemos “**Think Stats**”… este no me gustó tanto, no es un libro introductorio a Python y a estadísticas, es bueno si ya sabes un poco de Python y un poco de estadística, y te muestra cómo representar este conocimiento programado 🟠",
 				rating: 3,
 				author: "Allen B. Downey",
 				isbn: "9781491907368",
@@ -112,7 +112,8 @@ const booksData = [
 				isbn: "1491963042",
 			},
 			{
-				title: "Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow",
+				title:
+					"Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow",
 				description:
 					'La joya de la corona, "**Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow**”, creo que es el mejor libro de introducción a machine learning que existe. Muchos detalles, teoría y código, usando bibliotecas estándar. Si solamente puedes conseguir un libro, este es 🟢',
 				rating: 5,
@@ -135,7 +136,7 @@ const booksData = [
 				author: "Emily Robinson and Jacqueline Nolis",
 				isbn: "9781617296246",
 			},
-		]
+		],
 	},
 	{
 		name: "Deep learning práctico",
@@ -219,7 +220,8 @@ const booksData = [
 			},
 			{
 				title: "Reliable Machine Learning",
-				description: "TBA",
+				description:
+					"Francamente este es uno de los mejores libros sobre MLOps que he tenido la fortuna de leer. Creo que el título no le hace justicia, si bien habla de SRE, habla perfectametne de cómo adoptar los principios en el entorno de ML.",
 				rating: 5,
 				author:
 					"Cathy Chen, Niall Richard Murphy, Kranti Parisa, D. Sculley, Todd Underwood",
@@ -259,28 +261,32 @@ const booksData = [
 			},
 			{
 				title: "MLOps Engineering at Scale",
-				description: "TBA",
+				description:
+					"Publisher: MLOps Engineering at Scale teaches you how to implement efficient machine learning systems using pre-built services from AWS and other cloud vendors.",
 				// rating: 1,
 				author: "Carl Osipov",
 				isbn: "9781617297762",
 			},
 			{
 				title: "Effective Data Science Infrastructure",
-				description: "TBA",
+				description:
+					"Publisher: Design data science infrastructure that boosts productivity. Handle compute and orchestration in the cloud. Deploy machine learning to production. Monitor and manage performance and results.",
 				// rating: 1,
 				author: "Ville Tuulos",
 				isbn: "9781617299193",
 			},
 			{
 				title: "Designing Machine Learning Systems",
-				description: "TBA",
+				description:
+					"Publisher: Author Chip Huyen, co-founder of Claypot AI, considers each design decision--such as how to process and create training data, which features to use, how often to retrain models, and what to monitor--in the context of how it can help your system as a whole achieve its objectives. The iterative framework in this book uses actual case studies backed by ample references.",
 				// rating: 1,
 				author: "Chip Huyen",
 				isbn: "9781098107963",
 			},
 			{
 				title: "Designing Data-Intensive Applications",
-				description: "TBA",
+				description:
+					"Publisher: If you develop applications that have some kind of server/backend for storing or processing data, and your applications use the internet (e.g., web applications, mobile apps, or internet-connected sensors), then this book is for you.",
 				// rating: 1,
 				author: "Martin Kleppmann",
 				isbn: "1449373321",
@@ -292,154 +298,173 @@ const booksData = [
 		books: [
 			{
 				title: "A First Course in Machine Learning",
-				description: 'No nos olvidamos de la teoría de ML, "**A First Course in Machine Learning**”, como el nombre lo indica, es "un primer curso", va a detalle en algunos cuantos temas selectos de machine learning. Se acerca a los temas desde un punto puramente matemático pero explicando todo paso por paso: Álgebra lineal y cálculo 🟢',
+				description:
+					'No nos olvidamos de la teoría de ML, "**A First Course in Machine Learning**”, como el nombre lo indica, es "un primer curso", va a detalle en algunos cuantos temas selectos de machine learning. Se acerca a los temas desde un punto puramente matemático pero explicando todo paso por paso: Álgebra lineal y cálculo 🟢',
 				rating: 4,
 				author: "Simon Rogers and Mark Girolami",
 				isbn: "9781498738484",
 			},
 			{
 				title: "Mathematics for Machine Learning",
-				description: '"**Mathematics for Machine Learning**”, como su nombre lo indica, este libro habla de las matemáticas que se requieren para entender el funcionamiento de los algoritmos de machine learning, también contiene un poco de introducción a temas de ML, pero eso noes lo más valioso. Recomendado 🟢',
+				description:
+					'"**Mathematics for Machine Learning**”, como su nombre lo indica, este libro habla de las matemáticas que se requieren para entender el funcionamiento de los algoritmos de machine learning, también contiene un poco de introducción a temas de ML, pero eso noes lo más valioso. Recomendado 🟢',
 				rating: 5,
 				author: "Marc Peter Deisenroth",
 				isbn: "110845514X",
 			},
 			{
 				title: "Pattern Recognition and Machine Learning",
-				description: 'Como un ladrillo de conocimiento llega “**Pattern Recognition and Machine Learning**”, bastante avanzado para mi, pero sin duda uno de los mejores libros para entender machine learning desde un punto de vista teórico 🟢',
+				description:
+					"Como un ladrillo de conocimiento llega “**Pattern Recognition and Machine Learning**”, bastante avanzado para mi, pero sin duda uno de los mejores libros para entender machine learning desde un punto de vista teórico 🟢",
 				rating: 5,
 				author: "Christopher M. Bishop",
 				isbn: "0387310738",
 			},
 			{
 				title: "The Elements of Statistical Learning",
-				description: 'Otro libro de esos que parecen de los básicos en la teoría de ML, "**The Elements of Statistical Learning**”. Incluye de todo, hasta contenido sobre redes neuronales, con explicaciones brillantes entre gráficas y fórmulas a todo color. Caro, eso si 🟢',
+				description:
+					'Otro libro de esos que parecen de los básicos en la teoría de ML, "**The Elements of Statistical Learning**”. Incluye de todo, hasta contenido sobre redes neuronales, con explicaciones brillantes entre gráficas y fórmulas a todo color. Caro, eso si 🟢',
 				rating: 5,
 				author: "Robert Tibshirani and Trevor Hastie",
 				isbn: "0387848576",
 			},
 			{
 				title: "Machine Learning: A Probabilistic Perspective",
-				description: '"**Machine Learning: A Probabilistic Perspective**”, definitivamente no es para principiantes (creo yo), de nuevo, nada de código y puras fórmulas, un buen libro de referencia matemática – tiene a su favor que es uno de los más recientes, aunque no es que la teoría haya cambiado demasiado 🟢 ',
+				description:
+					'"**Machine Learning: A Probabilistic Perspective**”, definitivamente no es para principiantes (creo yo), de nuevo, nada de código y puras fórmulas, un buen libro de referencia matemática – tiene a su favor que es uno de los más recientes, aunque no es que la teoría haya cambiado demasiado 🟢 ',
 				rating: 5,
 				author: "Kevin P. Murphy",
 				isbn: "0262018020",
 			},
 			{
 				title: "Deep Learning",
-				description: '"Para el público este es uno de los mejores libros sobre las redes neuronales profundas, "**Deep Learning**”, es un libro dirigido más para la gente interesada en la investigación que a la práctica. Definitivamente no es uno que leería sin conocimientos sólidos de cálculo y álgebra lineal 🟢',
+				description:
+					'"Para el público este es uno de los mejores libros sobre las redes neuronales profundas, "**Deep Learning**”, es un libro dirigido más para la gente interesada en la investigación que a la práctica. Definitivamente no es uno que leería sin conocimientos sólidos de cálculo y álgebra lineal 🟢',
 				rating: 5,
 				author: "Ian Goodfellow, Yoshua Bengio, Aaron Courville, Francis Bach",
 				isbn: "0262035618",
 			},
-		]
+		],
 	},
 	{
 		name: "Visualización de datos",
 		books: [
 			{
 				title: "Storytelling with Data",
-				description: 'Hablando de temas menos matemáticos, "**Storytelling with Data**” es un excelente libro sobre tips y técnicas para lograr visualización de datos efectiva. Habiendo dicho eso, es un libro básico, como para comenzar en la tema, no vas a aprender nada extraordinario 🟢',
+				description:
+					'Hablando de temas menos matemáticos, "**Storytelling with Data**” es un excelente libro sobre tips y técnicas para lograr visualización de datos efectiva. Habiendo dicho eso, es un libro básico, como para comenzar en la tema, no vas a aprender nada extraordinario 🟢',
 				rating: 5,
 				author: "Cole Nussbaumer Knaflic",
 				isbn: "1119002257",
 			},
 			{
 				title: "How Charts Lie",
-				description: 'Un libro lleno de ejemplos de lo que sí y no se debe hacer, "How Charts Lie”, es una buena lectura para reforzar algunas de las ideas que ya tengas sobre dataviz, o para deshacerte de las no tan buenas prácticas. Es un libro que inclusive le recomendaría a gente no técnica 🟢',
+				description:
+					'Un libro lleno de ejemplos de lo que sí y no se debe hacer, "How Charts Lie”, es una buena lectura para reforzar algunas de las ideas que ya tengas sobre dataviz, o para deshacerte de las no tan buenas prácticas. Es un libro que inclusive le recomendaría a gente no técnica 🟢',
 				rating: 5,
 				author: "Alberto Cairo",
 				isbn: "0393358429",
 			},
 			{
 				title: "Making Data Visual",
-				description: 'Un librito pequeño, "**Making Data Visual**”, no es un buen recurso para aprender de visualización de datos en mi opinión, sino que cubre temas que rodean a la disciplina, si te quieres dedicar enteramente a la visualización de datos, creo que es un libro a considerar 🟠',
+				description:
+					'Un librito pequeño, "**Making Data Visual**”, no es un buen recurso para aprender de visualización de datos en mi opinión, sino que cubre temas que rodean a la disciplina, si te quieres dedicar enteramente a la visualización de datos, creo que es un libro a considerar 🟠',
 				rating: 3,
 				author: "Danyel Fisher, Miriah Meyer",
 				isbn: "9781491928424",
 			},
-		]
+		],
 	},
 	{
-		name: 'Deep Learning práctico',
+		name: "Deep Learning práctico",
 		books: [
 			{
 				title: "Grokking Deep Learning",
-				description: 'El libro "**Grokking Deep Learning**” es otro de introducción al aprendizaje profundo, te lo recomiendo si quieres aprender del tema sin el uso de frameworks, comenzando desde 0 con fines educativos. La única queja que tengo ques que puede tener mejores ejemplos, aún así, recomendado 🟢',
+				description:
+					'El libro "**Grokking Deep Learning**” es otro de introducción al aprendizaje profundo, te lo recomiendo si quieres aprender del tema sin el uso de frameworks, comenzando desde 0 con fines educativos. La única queja que tengo ques que puede tener mejores ejemplos, aún así, recomendado 🟢',
 				rating: 5,
 				author: "Andrew W Trask",
 				isbn: "1617293709",
 			},
 			{
 				title: "Deep Learning for Coders with Fastai and PyTorch",
-				description: 'Hecho para la gente ya tiene un conocimiento sólido de programación, "**Deep Learning for Coders with Fastai and PyTorch**”, es un libro bastante bueno, enfocado principalmente en la práctica de las redes neuronales usando el framework Fastai para acelerar las cosas 🟢',
+				description:
+					'Hecho para la gente ya tiene un conocimiento sólido de programación, "**Deep Learning for Coders with Fastai and PyTorch**”, es un libro bastante bueno, enfocado principalmente en la práctica de las redes neuronales usando el framework Fastai para acelerar las cosas 🟢',
 				rating: 4,
 				author: "Jeremy Howard, Sylvain Gugger",
 				isbn: "9781492045526",
 			},
 			{
 				title: "Programming PyTorch for Deep Learning",
-				description: 'No puedo recomendar "**Programming PyTorch for Deep Learning**” para todos, siento que es un libro medio superficial en ciertos aspectos, es probable que el conocimiento lo encuentres fácilmente en otros lados. Pero si aprender de libros es definitivamente lo tuyo, adelante 🟠',
+				description:
+					'No puedo recomendar "**Programming PyTorch for Deep Learning**” para todos, siento que es un libro medio superficial en ciertos aspectos, es probable que el conocimiento lo encuentres fácilmente en otros lados. Pero si aprender de libros es definitivamente lo tuyo, adelante 🟠',
 				rating: 3,
 				author: "Ian Pointer",
 				isbn: "1492045357",
 			},
 			{
 				title: "Natural Language Processing with PyTorch",
-				description: '"**Natural Language Processing with PyTorch**”, mi queja principal con este libro es que es extremadamente corto, y pareciera que fue hecho medio a prisa. Te recomendaría que obtuvieras conocimientos de NLP antes y uses este libro para aplicarlas en PyTorch 🟠'				,
+				description:
+					'"**Natural Language Processing with PyTorch**”, mi queja principal con este libro es que es extremadamente corto, y pareciera que fue hecho medio a prisa. Te recomendaría que obtuvieras conocimientos de NLP antes y uses este libro para aplicarlas en PyTorch 🟠',
 				rating: 3,
 				author: "Delip Rao",
 				isbn: "1491978236",
 			},
 			{
 				title: "Generative Deep Learning",
-				description: 'Este libro me gustó bastante, "**Generative Deep Learning**”, explica las bases del funcionamiento de muchas de esas cosas que últimamente están en las noticias. Y tiene ejemplos que te permiten crear cosas básicas pero impresionantes y entretenidas 🟢'				,
+				description:
+					'Este libro me gustó bastante, "**Generative Deep Learning**”, explica las bases del funcionamiento de muchas de esas cosas que últimamente están en las noticias. Y tiene ejemplos que te permiten crear cosas básicas pero impresionantes y entretenidas 🟢',
 				rating: 4,
 				author: "David Foster",
 				isbn: "9781492041948",
 			},
-		]
+		],
 	},
 	{
 		name: "Python",
 		books: [
 			{
 				title: "Fluent Python",
-				description: 'Comenzando la sección de Python, tengo "**Fluent Python**”, sin duda uno de los mejores libros sobre Python que he leído. Está orientado a gente con conocimiento intermedio del lenguaje y lleva este conocimiento a otro nivel. Definitivamente uno que tienes que leer 🟢'				,
+				description:
+					'Comenzando la sección de Python, tengo "**Fluent Python**”, sin duda uno de los mejores libros sobre Python que he leído. Está orientado a gente con conocimiento intermedio del lenguaje y lleva este conocimiento a otro nivel. Definitivamente uno que tienes que leer 🟢',
 				rating: 5,
 				author: "Luciano Ramalho",
 				isbn: "9781492056355",
 			},
 			{
 				title: "Python for DevOps",
-				description: 'Con un título engañoso, "**Python for DevOps**” no habla mucho de Python la verdad, más bien debería llamarse simplemente DevOps. Además de que sufre de parecer un montón de posts de blog en forma de libro. Si quieres aprender DevOps, seguro hay mejores libros 🔴',
+				description:
+					'Con un título engañoso, "**Python for DevOps**” no habla mucho de Python la verdad, más bien debería llamarse simplemente DevOps. Además de que sufre de parecer un montón de posts de blog en forma de libro. Si quieres aprender DevOps, seguro hay mejores libros 🔴',
 				rating: 1,
 				author: "Noah Gift, Kennedy Behrman, Alfredo Deza, Grig Gheorghiu",
 				isbn: "9781492057642",
 			},
 			{
 				title: "High Performance Python",
-				description: '"**High Performance Python**”, este libro me agarró por sorpresa. No es fácil de comprender, y definitivamente no es para principiantes sino para gente con conocimiento avanzado, es muy denso en información y creo que los ejemplos podrían ser más claros, aún así, recomendado 🟢',
+				description:
+					'"**High Performance Python**”, este libro me agarró por sorpresa. No es fácil de comprender, y definitivamente no es para principiantes sino para gente con conocimiento avanzado, es muy denso en información y creo que los ejemplos podrían ser más claros, aún así, recomendado 🟢',
 				rating: 4,
 				author: "Micha Gorelick, Ian Ozsvald",
 				isbn: "9781492055020",
 			},
 			{
 				title: "Python Testing with Pytest",
-				description: 'No he leído "**Python Testing with Pytest**”, pero he escuchado buenísimas opiniones sobre él de personas que confío, así que yo creo que 🟢',
+				description:
+					'No he leído "**Python Testing with Pytest**”, pero he escuchado buenísimas opiniones sobre él de personas que confío, así que yo creo que 🟢',
 				rating: 5,
 				author: "Micha Gorelick, Ian Ozsvald",
 				isbn: "1680508601",
 			},
 			{
 				title: "Elegant SciPy",
-				description: 'El título suena intrigante "**Elegant SciPy**", pareciera que te va a enseñar a escribir buen código, pero creo que se pierde mucho en ejemplos complicados que no ayudan en nada a entender los conceptos que se pretenden mostrar. Si quieres saber más de Python científico le puedes echar un ojo 🟠',
+				description:
+					'El título suena intrigante "**Elegant SciPy**", pareciera que te va a enseñar a escribir buen código, pero creo que se pierde mucho en ejemplos complicados que no ayudan en nada a entender los conceptos que se pretenden mostrar. Si quieres saber más de Python científico le puedes echar un ojo 🟠',
 				rating: 3,
 				author: "Juan Nunez-Iglesias, Stéfan van der Walt, Harriet Dashnow",
 				isbn: "9781491922941",
 			},
-		]
-	}
+		],
+	},
 ];
 
 export default booksData;

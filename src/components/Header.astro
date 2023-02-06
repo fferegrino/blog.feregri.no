@@ -38,6 +38,10 @@ const url = new URL(Astro.request.url);
 		</a>
 		<nav id="navigation-menu" aria-label="Main">
 			<a href="/" aria-current={url.pathname === "/" ? "page" : false}>🏠</a>
+			<a
+				href="/bookshelf"
+				aria-current={url.pathname === "/bookshelf" ? "page" : false}>📚</a
+			>
 			<a href="/about" aria-current={url.pathname === "/about" ? "page" : false}
 				>Acerca
 			</a>
@@ -48,11 +52,6 @@ const url = new URL(Astro.request.url);
 				href="/projects"
 				aria-current={url.pathname === "/projects" ? "page" : false}
 				>Projects
-			</a>
-			<a
-				href="/bookshelf"
-				aria-current={url.pathname === "/bookshelf" ? "page" : false}
-				>Librero
 			</a>
 			<a
 				href="/colaboraciones"

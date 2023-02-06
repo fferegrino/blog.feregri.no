@@ -108,13 +108,13 @@ const Books = ({ max, random }: CollectionProps) => {
 						};
 
 						return (
-							<div className="group border-1 mb-3 w-full max-w-sm hover:ring-2 lg:flex lg:max-w-full">
+							<div className="border-1 group mb-3 w-full max-w-sm hover:ring-2 lg:flex lg:max-w-full">
 								<div
-									className="h-48 flex-none overflow-hidden bg-cover group-hover:bg-contain bg-center bg-no-repeat text-center hover:bg-contain lg:h-auto lg:w-48"
+									className="h-48 flex-none overflow-hidden bg-cover bg-center bg-no-repeat text-center hover:bg-contain group-hover:bg-contain lg:h-auto lg:w-48"
 									style={coverStyle}
 									title={book.title}
 								></div>
-								<div className="flex flex-col justify-between dark:bg-slate-600 bg-white p-4 leading-normal lg:rounded-b-none ">
+								<div className="flex flex-col justify-between bg-white p-4 leading-normal dark:bg-slate-600 lg:rounded-b-none ">
 									<div className="mb-8">
 										<p className="flex items-center text-sm text-gray-600">
 											{starRating}
@@ -129,7 +129,9 @@ const Books = ({ max, random }: CollectionProps) => {
 												</p>
 											</div>
 										</div>
-										<p className="text-sm text-gray-700 dark:text-neutral-100">{book.description}</p>
+										<p className="text-sm text-gray-700 dark:text-neutral-100">
+											{book.description}
+										</p>
 									</div>
 								</div>
 							</div>

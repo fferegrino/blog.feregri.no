@@ -30,3 +30,5 @@ coverage
 
 pnpm-lock.yaml
 dist
+
+**/2022-*.mdx
