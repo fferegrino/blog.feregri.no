@@ -1,0 +1,49 @@
+---
+import Container from "./Container.astro";
+import { SOCIALS, CREDITS,Credits, SocialNetwork } from "../consts";
+---
+
+<footer class="pb-10 md:pb-10">
+  <Container>
+    <div class="m-auto w-10/12">
+      <div class="flex flex-wrap items-center justify-between md:flex-nowrap">
+        <div
+          class="flex w-full justify-center space-x-12 text-gray-600 dark:text-gray-300 sm:w-7/12 md:justify-start"
+        >
+        <p>Antonio Feregrino Bolaños</p>
+        </div>
+        <div
+          class="m-auto mt-16 w-10/12 text-center sm:mt-auto sm:w-5/12 sm:text-left"
+        >
+        {
+          SOCIALS.map((social: SocialNetwork) => (
+            <a href={social.url} class="inline-block mx-2">
+              <i
+                class={`fab fa-${social.icon} text-2xl text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-white transition-colors duration-300`}
+              />
+              <span class="sr-only">{social.name}</span>
+            </a>
+          ))
+        }
+        </div>
+        <div
+          class="m-auto mt-16 w-10/12 space-y-6 text-center sm:mt-auto sm:w-5/12 sm:text-left"
+        >
+        <ul role="list" class="">
+        {
+          CREDITS.map((credit: Credits) => (
+            <li>
+              <a
+                href={credit.url}
+                target="_blank"
+                class="text-sm text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-white ">{credit.text}</a
+              >
+            </li>
+          ))  
+        }
+        </ul>
+        </div>
+      </div>
+    </div>
+  </Container>
+</footer>

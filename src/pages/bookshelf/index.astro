@@ -1,0 +1,62 @@
+---
+import { BIOGRAPHY } from '../../consts';
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Container from '../../components/Container.astro';
+import BookReview from '../../components/BookReview';
+import slugify from 'slugify';
+
+
+const bookshelf = (await getCollection('bookshelf'));
+
+
+const groupedByCategory = bookshelf.reduce((acc, book) => {
+	const category = book.data.category;
+	if (!acc[category]) {
+		acc[category] = [];
+	}
+	acc[category].push(book);
+
+	return acc;
+}, {});
+
+const description = "I have read some books and I want to share my thoughts about them - along with some recommendations";
+
+const fullText = "I have read some books and I want to share my thoughts about them - along with some recommendations. I hope you find them useful. I will try to keep this list updated. I will also try to add more books as I read them. I hope you enjoy (or hate them) them as much as I did.";
+
+---
+
+<Layout title="My book recommendations" description={description}>
+	<Container>
+		<main class="py-24">
+			<p class=" text-black dark:text-white">
+				{fullText}
+			</p>
+			<div class="py-2 bg-white dark:bg-gray-900 text-center sticky top-0 text-sm md:text-md text-black dark:text-white">
+			<ul>
+				{
+					Object.keys(groupedByCategory).map((category) => (
+						<li class="inline-block px-3">
+							<a href={`#${slugify(category, {lower:true})}`} class="mx-2 underline">{category}</a>
+						</li>
+					))
+				}
+			</ul>
+
+
+		</div>
+			<section>
+				{
+					Object.keys(groupedByCategory).map((category) => (
+						<div class="flex flex-wrap">
+							<h2 id={slugify(category, {lower:true})} class="text-2xl font-bold mb-4  text-black dark:text-white [scroll-margin-top:60px]">{category}</h2>
+							<div>
+								{groupedByCategory[category].map((book) => (<BookReview data={book.data} slug={book.slug} />))}
+							</div>
+						</div>
+					))
+				}
+			</section>
+		</main>
+	</Container>
+	</Layout>
