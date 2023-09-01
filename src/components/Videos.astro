@@ -1,0 +1,77 @@
+---
+import type { VideoInfo } from "../youtube";
+import Container from "./Container.astro";
+
+const { anchor, title, description, collection } = Astro.props
+
+const maxItems = 3;
+
+const toolStyle = [
+  "group h-52 relative bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10",
+];
+
+const partial = collection.slice(0, maxItems);
+
+const parsed = partial.map((item: VideoInfo) => {
+  const descriptionParts = item.description.split("\n");
+  const maxResThumbnail = `https://i.ytimg.com/vi/${item.videoId}/maxresdefault.jpg`
+  return {
+    ...item,
+    // title: item.title.replace(" - YouTube", ""),
+    description: descriptionParts[0],
+    thumbnail: maxResThumbnail,
+  };
+});
+---
+
+<div id={anchor}>
+  <Container>
+    <div class="md:w-2/3 lg:w-3/2">
+      <h1
+        class="text-gray-900 dark:text-white font-bold text-4xl md:text-5xl xl:text-5xl"
+      >
+        {title}
+      </h1>
+      <h2
+        class="my-3 text-1xl font-bold text-gray-700 dark:text-white md:text-2xl"
+      >
+        {description}
+      </h2>
+    </div>
+    <div
+      class="mt-8 grid divide-x divide-y divide-gray-100 dark:divide-gray-700 overflow-hidden rounded-3xl border grid-cols-[5fr] lg:grid-cols-[6fr,6fr,6fr,1fr] border-gray-100 text-gray-600 dark:border-gray-700"
+    >
+    {
+      parsed.map((item: VideoInfo, idx: number)=> (
+        <div class={toolStyle.join("") + ` ${idx == maxItems-1 ? "hidden lg:block" : ""}`}>
+          <div class="relative">
+            <iframe class="absolute inset-0 w-full h-52"
+src={`https://www.youtube.com/embed/${item.videoId}`}>
+</iframe>
+              <a
+                href={item.url}
+                class={`flex items-center justify-between group-hover:text-secondary`}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  class="w-5 h-5 -translate-x-4 text-2xl opacity-0 transition duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M12.97 3.97a.75.75 0 011.06 0l7.5 7.5a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 11-1.06-1.06l6.22-6.22H3a.75.75 0 010-1.5h16.19l-6.22-6.22a.75.75 0 010-1.06z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </a>
+            </div>
+        </div>
+      ))
+    }
+    <a class="group relative text-center py-2 px-3  hover:text-secondary  dark:text-white  bg-white dark:bg-gray-800 transition hover:z-[1] hover:shadow-2xl hover:shadow-gray-600/10 lg:[text-orientation:sideways-right] lg:[writing-mode:vertical-lr] col-span-1"  href="https://www.youtube.com/@feregri_no">  
+      View channel
+  </a>
+    </div>
+  </Container>
+</div>
