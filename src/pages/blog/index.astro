@@ -9,7 +9,7 @@ const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
 );
 
-const description = 'Here are som of the stuff I have written about.';
+const description = 'Welcome to my personal blog. Here you can find my thoughts on various topics, including machine learning, programming, and some other stuff.'
 ---
 
 <Layout title="Blog" description={description}>
