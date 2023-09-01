@@ -4,11 +4,15 @@ import HeroSection from '../components/HeroSection.astro';
 import Blog from '../components/Blog.astro';
 import CallToAction from '../components/CallToAction.astro';
 import Features from '../components/Features.astro';
+import Videos from '../components/Videos.astro';
 import Stats from '../components/Stats.astro';
 import Testimonials from '../components/Testimonials.astro';
 import { BIOGRAPHY } from '../consts';
 import projects from './projects/projects';
 import { getCollection } from 'astro:content';
+import { getVideoInfoFromRSS } from '../youtube';
+
+const videos = await getVideoInfoFromRSS("UC8KCb358oioQMcJ5pUfs8UQ");
 
 const posts = (await getCollection('blog')).map((post) => {
 	const slug = `/blog/${post.slug}`;
@@ -57,12 +61,10 @@ const trimmedDescription = bookshelf.map((book) => {
 	<main class="space-y-10 mb-40">
 		<HeroSection/>
 		<Features anchor="blog" title="Blog" description="Here is some stuff I've written" collection={posts} />
+		<Videos anchor="videos" title="Videos" description="Here are some videos I've made" collection={videos} />
 		<Features anchor="projects" title="Projects" description="Some of the projects I have created or worked on" collection={projects} />
 		<Features anchor="bookshelf" title="Book recommendations" description="Lately I have been reading a lot, so here are my recommendations" collection={trimmedDescription} />
-		<!-- <Stats/> -->
-		<!-- <Testimonials/> -->
-		<!-- <CallToAction/> -->
-		<!-- <Blog/> -->
+
 	</main>
 
 	</Layout>
