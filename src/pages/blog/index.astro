@@ -9,10 +9,10 @@ const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
 );
 
-
+const description = 'Here are som of the stuff I have written about.';
 ---
 
-<Layout title="Blog - feregri.no" description={BIOGRAPHY}>
+<Layout title="Blog" description={description}>
 	<Container>
 		<main class="py-24">
 			<section>
