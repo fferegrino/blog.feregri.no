@@ -1,79 +1,61 @@
 ---
-import type { SiteMeta } from "@/types";
-import { createOgImage } from "../utils/createOgImage";
-import siteMeta from "src/site-meta.config";
-import "../styles/global.css";
+// Import the global.css file here so that it is included on
+// all pages through the use of the <BaseHead /> component.
+import '../styles/global.css';
 
-export type Props = SiteMeta;
+interface Props {
+	title: string;
+	description: string;
+	image?: string;
+}
 
-const {
-	title,
-	description = siteMeta.description,
-	image,
-} = Astro.props as Props;
-
-const titleSeparator = "•";
-const siteTitle = `${title} ${titleSeparator} ${siteMeta.title}`;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const ogImage = createOgImage({
+const { title, description, image = '/blog-placeholder-1.jpg' } = Astro.props;
+
+const imagePathValues = {
+	theme: 'slate',
 	title: title,
-	meta: ["Antonio Feregrino @feregri_no", "feregri.no"].join(" · "),
-});
+	description: description,
+	path: Astro.url,
+
+};
+
+const imagePath = Object.entries(imagePathValues)
+	.map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
+	.join('&');
+
+const imagePathUrl = `https://og-feregri-no.vercel.app/api?${imagePath}`;
 ---
 
+<!-- Global Metadata -->
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<meta name="generator" content={Astro.generator} />
 
-<!-- Primary Meta Tags -->
-<title>{siteTitle}</title>
-<meta name="title" content={siteTitle} />
-<meta name="description" content={description} />
+<!-- Font preloads -->
+<link rel="preload" href="/fonts/atkinson-regular.woff" as="font" type="font/woff" crossorigin />
+<link rel="preload" href="/fonts/atkinson-bold.woff" as="font" type="font/woff" crossorigin />
+
+<!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
 
-<!-- Global Metadata -->
-<link rel="icon" href="/favicon.png" />
-<link rel="apple-touch-icon" href="/images/icon/192x192.png" />
-<link rel="manifest" href="/manifest.webmanifest" />
-<meta name="theme-color" content={siteMeta.themeColorLight} />
-<meta name="google" content="notranslate" />
-<link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png" />
-<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png" />
-<link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png" />
-<link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png" />
-<link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png" />
-<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png" />
-<link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png" />
-<link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png" />
-<link
-	rel="icon"
-	type="image/png"
-	sizes="192x192"
-	href="/android-icon-192x192.png"
-/>
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-<link type="text/plain" rel="author" href="https://feregri.no/humans.txt" />
-<meta name="msapplication-TileColor" content="#2b5797" />
-<meta name="theme-color" content="#ffffff" />
+<!-- Primary Meta Tags -->
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
 
 <!-- Open Graph / Facebook -->
-<meta property="og:locale" content="es_ES" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content={canonicalURL} />
+<meta property="og:url" content={Astro.url} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={ogImage} />
-<meta property="fb:app_id" content="285513459106600" />
+<meta property="og:image" content={imagePathUrl} />
 
 <!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content={title} />
-<meta name="twitter:description" content={description} />
-<meta name="twitter:image" content={ogImage} />
-<meta name="twitter:image:alt" content={title} />
-<meta name="twitter:site" content="@feregri_no" />
-<meta name="twitter:creator" content="@feregri_no" />
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={Astro.url} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={imagePathUrl} />

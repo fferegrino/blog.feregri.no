@@ -32,3 +32,4 @@ pnpm-debug.log*
 # Jupyter
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
+.astro/types.d.ts

@@ -1,0 +1,39 @@
+---
+import AppFooter from "../components/AppFooter.astro";
+import AppHeader from "../components/AppHeader.astro"
+import BaseHead from "../components/BaseHead.astro";
+
+const { title, description } = Astro.props
+---
+
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content={description} />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		<title>{title} - feregri.no</title>
+
+		<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap" rel="stylesheet">
+		<BaseHead title={title} description={description} />
+	</head>
+	<body class="bg-white dark:bg-gray-900">
+		<AppHeader/>
+		<slot />
+		<AppFooter/>
+	</body>
+</html>
+<style>
+	html {
+		font-family: Urbanist, sans-serif;
+		scroll-behavior: smooth;
+	}
+
+	body {
+		margin: 0;
+	}
+</style>
