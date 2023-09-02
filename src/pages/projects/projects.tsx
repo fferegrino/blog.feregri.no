@@ -12,6 +12,8 @@ const projects = (await getCollection('project')).map((project)=> {
 		darkIconUrl = `https://ik.imagekit.io/thatcsharpguy/feregri_no/site/project/sharp-${iconCount}-dark.png`
 	}
 
+	const url =  project.data.websiteUrl || project.data.repoUrl;
+
 	if (!darkIconUrl) {
 		darkIconUrl = iconUrl;
 	}
@@ -19,6 +21,7 @@ const projects = (await getCollection('project')).map((project)=> {
 		...project,
 		data: {
 			...project.data,
+			url,
 			darkIconUrl,
 			iconUrl
 		}
