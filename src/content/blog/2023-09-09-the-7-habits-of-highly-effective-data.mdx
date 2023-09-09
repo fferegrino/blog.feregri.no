@@ -1,0 +1,126 @@
+---
+slug: the-7-habits-of-highly-effective-data
+title: The 7 Habits of Highly Effective Data
+description: Everyone knows, garbage in, garbage out. Every single data practitioner talks about how important it is for you to have quality data.
+publishDate: "2023-09-09"
+tags:
+  - mlops
+  - data
+heroImage: https://ik.imagekit.io/thatcsharpguy/feregri_no/site/social-images/7-habits.png?updatedAt=1694299525099
+---
+
+Everyone knows, garbage in, garbage out.
+
+Every single data practitioner talks about how important it is for you to have quality data: Without quality data your analysis will be flawed, your models won’t learn, your project will fail and your clients will be unhappy.
+
+High-quality data is everything. But, in reality, what is high-quality data?
+
+Well, the answer is… it depends. Like many other things in data science, the definition of quality data varies from project to project. However, today, I bring you seven aspects you should consider when deciding if the quality of your data is good enough for your project.
+
+## Correctness
+
+Data should be consistent with the values it is supposed to measure.
+
+In other words, the data should accurately reflect the real-world phenomena or variables it is intended to represent. This consistency ensures that the data is meaningful and valid for analysis and decision-making purposes.
+
+For instance, if you are working with data from a small-scale bank and you come across accounts with billion-dollar balances, it would likely be an error in the data. It is highly improbable for a small-scale bank to have such large account balances, and this inconsistency suggests a data quality issue, such as a data entry error or data corruption.
+
+Similarly, in a weather dataset from a Scandinavian country, if you find boiling hot temperature readings, it would create doubt in the accuracy of the data. While climate change may lead to unusual weather patterns, extremely high temperatures that are inconsistent with the climate norms of the region should raise concerns about the data’s correctness.
+
+However, it is essential to note that data correctness can be subjective to some extent. It depends on our pre-existing knowledge and understanding of the world. Different situations and contexts may have unique requirements and thresholds for what is considered correct data.
+
+Collaborating with SMEs, especially if the data engineers or data scientists are unfamiliar with the project or business model, helps to enhance the accuracy and reliability of the data analysis, as well as the overall understanding of the data’s quality and correctness.
+
+## Completeness
+
+Data should contain all the information that is relevant to the phenomena you are modelling.
+
+Completeness can be understood on two levels:
+
+ - At the attribute level: Quality data should include all the relevant attributes or variables that are necessary to understand and analyse the phenomenon. For example, if you are working on a problem of analysing cab-hire rides in a city, a dataset that includes longitude but lacks latitude information would be considered incomplete. Both longitude and latitude are crucial for accurately representing the location data necessary for your analysis.
+
+ - At the temporal level: Completeness also refers to the absence of unexplainable gaps or missing data points over the defined time period of interest. For example, if you are analysing a transaction dataset spanning the past 10 years, having a few months’ worth of data missing here and there would make the data incomplete. These gaps create uncertainty and limit the ability to analyse the phenomenon accurately over that timeframe.
+
+Data completeness is essential as it guarantees that the analysis is based on a robust and representative dataset, providing a complete picture of the phenomenon under investigation. Incomplete data can lead to biased or incomplete analysis and may affect the reliability and validity of the conclusions you reach.
+
+To address completeness, it is essential to perform thorough data validation and data quality checks. This includes examining the presence of all relevant attributes, identifying and addressing missing data, and ensuring that the dataset covers the required temporal scope without any unexplained gaps.
+
+### Missing-at-random  
+
+We say that data is missing at random when there is no pattern that could explain why a particular subset of information is missing.
+
+For example, if in a dataset of daily bank transactions, the missing data is uniformly distributed across all seven days of the week, we could consider the missing values as being a product of the underlying randomness inherent in the data generation process. The “missingness” is unrelated to any specific day of the week or any other observed or unobserved variables.
+
+On the contrary, for data missing NOT at random, the “missingness” is systematic and can be attributed to specific factors or characteristics, whether observed or unobserved. There is a discernible pattern that could explain why particular data is missing.
+
+For instance, if in the dataset of daily bank transactions, there is a higher proportion of missing data on weekends compared to weekdays, this could indicate that there is a relationship between the missing data and the day of the week. This pattern suggests that weekends have a higher likelihood of missing data due to different customer behaviours or operational factors.
+
+When data is missing not at random, the missing values are not randomly distributed and can introduce bias into the analysis if not properly addressed. It implies that the “missingness” itself may carry valuable information that is related to the missing variable or other aspects of the data.
+
+### Reliable
+
+Can you trust your dataset? Is there a way to corroborate that the information in it does not contradict other data sources that may have measured the same event?
+
+Cross-referencing data from multiple sources can provide valuable insight into data reliability.
+
+Here are a couple of examples:
+
+ - Climate Measurement: In the context of climate data, if there is a grid of devices measuring the same phenomenon, it is important to compare the measurements collected by neighbouring devices. If there is a dramatic variation in measurements between devices that are in close proximity, it can indicate an issue with the data quality or potential malfunction of certain devices. By cross-checking the data from these devices, you can identify outliers and assess the overall reliability of the measurements.
+
+ - Client Information: When working with databases containing client information, merging datasets from different sources may reveal discrepancies or contradictions. For example, if two data sources provide different birthday dates for the same client, it raises questions about data accuracy and consistency. Cross-referencing this information with other reliable sources, such as official records or additional databases, can help identify the correct and reliable data.  
+
+In such cases, the reliability of the dataset may indeed come into question. It is crucial to address any discrepancies or contradictions, as they can impact the validity of any insights or decisions based on the data. Data cleansing, data reconciliation, and data auditing techniques can be employed to identify and resolve such discrepancies and ensure the trustworthiness of the dataset.
+
+## Relevant
+
+We talked about data being complete, and certainly, you don’t want missing data, but at the same time, you don’t want data that is not important to what you are analysing.
+
+It is essential to ensure that the dataset includes only the necessary variables or features that are directly related to the analysis objectives. The relevancy question also applies to the potential of duplicate or highly similar records in your dataset.
+
+Having irrelevant data can affect you in three ways:
+
+ - It introduces irrelevant noise into the analysis, potentially obscuring meaningful patterns or relationships.
+
+ - It can lead to overrepresentation of certain data points, introducing bias and skewing your analysis results.
+
+ - It increases the amount of resources needed to store and process this not-so-important information.
+
+The phrase “more information does not mean better information” emphasises the importance of quality over quantity in datasets. It highlights the notion that having a surplus of information does not automatically lead to more accurate or insightful analyses. Instead, the focus should be on gathering the right information that is directly relevant to the research question or analysis objectives.
+
+There is complexity in determining your information needs; it may be impossible to get it right from the get-go, but as you iterate in your analysis, you will start realising what data is relevant and disregard the rest.
+
+## Timely
+
+You need to make sure that the information you are working with was collected “on time” at the right moment that better suits the problem you are trying to model or analyse.
+
+Consider this scenario: if data regarding the effectiveness of a vaccine is collected two weeks after it was applied, as opposed to waiting two months, the outcomes and implications could vastly differ. Gathering information at the wrong time may have a detrimental impact on your project, rendering it ineffective or even failing altogether.
+
+Additionally, timeliness also encompasses the frequency of data collection and whether it adheres to the designated timespan. Think about a study on the effectiveness of a new medication; if observations are obtained from different patients at varying intervals, the usefulness of your findings may be compromised.
+
+It is important to make sure your data collection process adheres to a certain frequency and that data collection happens when it is most important for the problem you are trying to solve.
+
+## Granular
+
+Data granularity refers to the level of detail or specificity of the attributes within your dataset; it determines how coarse or finely data is captured or represented.
+
+Having high granularity in your dataset allows for more detailed and specific work, granting you the possibility of singling out individual elements at the cost of more complexity when working with this data.
+
+On the other hand, less granular data may come from some aggregation or summarisation procedure, leading to a more generalised view. This level of data is useful when analysing trends and patterns or making high-level decisions; however, it sacrifices the ability to perform detailed analysis.
+
+If given the option, it may be better to have high granularity and perform aggregations as you wish since going in the other direction, from aggregated data to individual observations, is not possible.
+
+Take into account that many open datasets that deal with sensitive data are sometimes aggregated in some of their attributes. For example, datasets involving cab trips may be aggregated at the postcode level so as to not reveal the specific locations of the users.
+
+## Available
+
+Data availability refers to more than just physical access or the ability to download a dataset. While having access to a database or a downloadable file is essential, it is crucial to recognise that availability goes beyond these measures.
+
+There may be datasets that are free for academic research but must be licensed for commercial applications. Other datasets may have restrictions on the usage or intended purpose of the data. Some datasets may allow analysis and aggregations, but they may not be suitable for training machine learning models.
+
+The last thing you want to do is to spend valuable time training a model using data you were not allowed to use, as this could raise legal and ethical complications.
+
+## Conclusion
+
+I would like us to think of *effective data*, that is, data that is of high quality but also includes other aspects that make it successful for our goals.
+
+Data effectiveness (and data quality) is not a goal in and of itself; it is an iterative process, and I hope that these 7 “habits” will help you decide where to focus your efforts next.

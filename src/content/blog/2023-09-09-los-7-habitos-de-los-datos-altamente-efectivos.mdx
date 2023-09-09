@@ -1,0 +1,108 @@
+---
+slug: los-7-habitos-de-los-datos-altamente-efectivos
+title: Los 7 Hábitos de los Datos Altamente Efectivos
+description: Todos lo saben, basura a la entrada, basura a la salida. Todos los profesionales de los datos hablan de lo importante que es disponer de datos de calidad.
+publishDate: "2023-09-09"
+tags:
+  - mlops
+  - data
+heroImage: https://ik.imagekit.io/thatcsharpguy/feregri_no/site/social-images/7-habitos.png?updatedAt=1694299525099
+---
+
+Todos los profesionales de los datos hablan de lo importante que es disponer de datos de calidad: Sin datos de calidad, tu análisis será erróneo, tus modelos no aprenderán, tu proyecto fracasará y tus clientes estarán tristes.
+
+Los datos de calidad lo son todo. Pero, en realidad, ¿qué son los datos de alta calidad?
+
+La respuesta es... depende. Como muchas otras cosas en la ciencia de datos, la definición de datos de calidad varía de un proyecto a otro. Sin embargo, hoy te traigo siete aspectos que deberías tener en cuenta a la hora de decidir si la calidad de tus datos es lo suficientemente buena para tu proyecto.
+
+## Correctitud
+
+Los datos deben ser coherentes con los valores que deben medir.
+
+En otras palabras, los datos deben reflejar con exactitud los fenómenos o variables del mundo real que pretenden representar. Esta coherencia garantiza que los datos sean significativos y válidos para el análisis y la toma de decisiones.
+
+Por ejemplo, si trabajas con datos de un banco pequeño y encuentra cuentas con saldos de miles de millones de dólares, probablemente se trate de un error en los datos. Es muy improbable que un banco pequeño tenga saldos de cuenta tan grandes, y esta incoherencia sugiere un problema de calidad de los datos, como un error de introducción o corrupción de datos.
+
+Del mismo modo, si en un conjunto de datos meteorológicos de un país escandinavo se detectan temperaturas de más de 40 grados, debes dudar de la correctitud de los datos. Aunque el cambio climático puede dar lugar a patrones meteorológicos inusuales, unas temperaturas extremadamente altas que no concuerden con las normas climáticas de la región deberían suscitar dudas sobre qué tan correctos son tus datos.
+
+Sin embargo, es esencial tener en cuenta que la corrección de los datos puede ser subjetiva hasta cierto punto. Depende de nuestros conocimientos previos y de nuestra comprensión del mundo. Diferentes situaciones y contextos pueden tener requisitos y umbrales únicos para lo que se consideran datos correctos.
+
+Colaborar con expertos en la materia, especialmente si los ingenieros o científicos de datos no están familiarizados con el proyecto o modelo de negocio, ayuda a mejorar la precisión y fiabilidad del análisis de datos, así como la comprensión general de la calidad y corrección de los datos.
+
+## Completitud
+
+Los datos deben contener toda la información relevante para el fenómeno que se está modelando.
+
+La completitud puede entenderse a dos niveles:
+
+- A nivel de atributos: Los datos de calidad deben incluir todos los atributos o variables relevantes que sean necesarios para comprender y analizar el fenómeno. Por ejemplo, si estamos trabajando en un problema de análisis de los viajes en taxi en una ciudad, un conjunto de datos que incluya la longitud pero carezca de información sobre la latitud se consideraría incompleto. Tanto la longitud como la latitud son cruciales para representar con precisión los datos de localización necesarios para su análisis.
+- A nivel temporal: La exhaustividad también se refiere a la ausencia de lagunas inexplicables o puntos de datos que faltan en el periodo de tiempo definido de interés. Por ejemplo, si se analiza un conjunto de datos de transacciones que abarca los últimos 10 años, la falta de datos de algunos meses aquí y allá haría que los datos estuvieran incompletos. Estas lagunas crean incertidumbre y limitan la capacidad de analizar el fenómeno con precisión durante ese periodo de tiempo.
+
+La completitud de los datos es esencial, ya que garantiza que el análisis se base en un conjunto de datos sólido y representativo, que ofrezca una imagen completa del fenómeno investigado. Los datos incompletos pueden dar lugar a análisis sesgados o incompletos y pueden afectar a la fiabilidad y validez de las conclusiones a las que se llegue.
+
+Para abordar la cuestión de la completitud, es esencial realizar una validación exhaustiva de los datos y comprobaciones de la calidad de los mismos. Esto incluye examinar la presencia de todos los atributos relevantes, identificar y tratar los datos que faltan y garantizar que el conjunto de datos cubre el ámbito temporal requerido sin lagunas inexplicables.
+
+### Missing-at-random (faltas de forma aleatoria)
+
+Se dice que los datos faltan de forma aleatoria cuando no existe ningún patrón que pueda explicar por qué falta un determinado subconjunto de información.
+
+Por ejemplo, si en un conjunto de datos de transacciones bancarias diarias, los datos que faltan se distribuyen uniformemente entre los siete días de la semana, podríamos considerar que los valores que faltan son producto de la aleatoriedad subyacente inherente al proceso de generación de datos. La falta no está relacionada con ningún día específico de la semana ni con ninguna otra variable observada o no observada.
+
+Por el contrario, en el caso de los datos que faltan de forma NO aleatoria, la ausencia es sistemática y puede atribuirse a factores o características específicos, ya sean observados o no. Existe un patrón discernible que podría explicar por qué faltan datos concretos.
+
+Por ejemplo, si en el conjunto de datos de transacciones bancarias diarias hay una mayor proporción de datos omitidos los fines de semana en comparación con los días laborables, esto podría indicar que existe una relación entre los datos omitidos y el día de la semana. Este patrón sugiere que los fines de semana hay una mayor probabilidad de que falten datos debido a diferentes comportamientos de los clientes o a factores operativos.
+
+Cuando los datos que faltan no son aleatorios, los valores que faltan no se distribuyen al azar y pueden introducir sesgos en el análisis si no se tratan adecuadamente. Esto implica que la propia omisión puede contener información valiosa relacionada con la variable omitida o con otros aspectos de los datos.
+
+## Confiabilidad
+
+¿Puedes confiar en tu conjunto de datos? ¿Hay alguna forma de corroborar que la información que contiene no contradice otras fuentes de datos que puedan haber medido el mismo suceso?
+
+Las referencias cruzadas de datos procedentes de múltiples fuentes pueden aportar información valiosa sobre la fiabilidad de los datos.
+
+He aquí un par de ejemplos:
+
+- Medición del clima: En el contexto de los datos climáticos, si hay una red de dispositivos que miden el mismo fenómeno, es importante comparar las mediciones recogidas por los dispositivos vecinos. Si hay una variación drástica en las mediciones entre dispositivos muy próximos, puede indicar un problema con la calidad de los datos o un posible mal funcionamiento de ciertos dispositivos. Al cotejar los datos de estos dispositivos, puede identificar valores atípicos y evaluar la fiabilidad general de las mediciones.
+- Información sobre clientes: Cuando se trabaja con bases de datos que contienen información de clientes, la fusión de conjuntos de datos de distintas fuentes puede revelar discrepancias o contradicciones. Por ejemplo, si dos fuentes de datos proporcionan fechas de cumpleaños diferentes para el mismo cliente, puedes comenzar a desconfiar un poco sobre la exactitud y coherencia de los datos. Cruzar esta información con otras fuentes fiables, como registros oficiales o bases de datos adicionales, puede ayudar a identificar los datos correctos y fiables.
+
+En tales casos, la fiabilidad del conjunto de datos puede llegar a cuestionarse. Es crucial abordar cualquier discrepancia o contradicción, ya que pueden afectar a la validez de cualquier idea o decisión basada en los datos. Se pueden emplear técnicas de limpieza, conciliación y auditoría de datos para identificar y resolver tales discrepancias y garantizar la fiabilidad del conjunto de datos.
+
+## Relevancia
+
+Hemos hablado de datos completos y, ciertamente no queremos que falten datos, pero tampoco queremos datos que no sean importantes para lo que estamos analizando.
+
+Es esencial asegurarse de que el conjunto de datos incluya sólo las variables o características necesarias que estén directamente relacionadas con los objetivos del análisis. La cuestión de la relevancia también se aplica a la posibilidad de que haya registros duplicados o muy similares en el conjunto de datos.
+
+Disponer de datos irrelevantes puede afectarle de tres maneras:
+
+- Introduce ruido irrelevante en el análisis, lo que puede ocultar patrones o relaciones significativos.
+- Puede dar lugar a una representación excesiva de determinados puntos de datos, lo que introduce sesgos y distorsiona los resultados del análisis.
+- Aumenta la cantidad de recursos necesarios para almacenar y procesar esta información no tan importante.
+
+La frase "más información no significa mejor información" subraya la importancia de la calidad sobre la cantidad en los conjuntos de datos. Habla la noción de que tener un excedente de información no conduce automáticamente a análisis más precisos o perspicaces. Por el contrario, hay que centrarse en recopilar la información adecuada que sea directamente relevante para la pregunta de investigación o los objetivos del análisis.
+
+Determinar las necesidades de información es complejo; puede que sea imposible acertar desde el principio, pero a medida que se itera en el análisis, uno empieza a darse cuenta de qué datos son relevantes y descarta el resto.
+
+## Puntualidad
+
+Hay que asegurarse de que la información con la que se trabaja se ha recogido a tiempo, en el momento adecuado que mejor se adapte al problema que se intenta modelar o analizar.
+
+Considera este escenario: si los datos relativos a la eficacia de una vacuna se recogen dos semanas después de su aplicación, en lugar de esperar dos meses, los resultados y las implicaciones podrían ser muy diferentes. Recopilar información en el momento equivocado puede tener un impacto perjudicial en su proyecto, haciéndolo ineficaz o incluso hacer que fracase por completo.
+
+Además, la puntualidad también abarca la frecuencia de la recopilación de datos y si se ajusta al plazo designado. Piense en un estudio sobre la eficacia de un nuevo medicamento; si las observaciones se obtienen de diferentes pacientes a intervalos variables, la utilidad de sus hallazgos puede verse comprometida.
+
+Es importante asegurarse de que el proceso de recogida de datos se adhiere a una frecuencia determinada y de que la recogida de datos se produce cuando es más importante para el problema que se intenta resolver.
+
+## Disponibilidad
+
+La disponibilidad de los datos va más allá del acceso físico o la posibilidad de descargar un conjunto de datos. Aunque tener acceso a una base de datos o a un archivo descargable es esencial, es crucial reconocer que la disponibilidad va más allá de estas medidas.
+
+Puede haber conjuntos de datos que sean gratuitos para la investigación académica, pero cuya licencia sea necesaria para aplicaciones comerciales. Otros conjuntos de datos pueden tener restricciones en cuanto a su uso o finalidad. Algunos conjuntos de datos pueden permitir análisis y agregaciones, pero pueden no ser adecuados para entrenar modelos de aprendizaje automático.
+
+Lo último que querrás hacer es dedicar tiempo valioso a entrenar un modelo con datos que no estabas autorizado a utilizar, ya que esto podría plantear complicaciones legales y éticas.
+
+## Conclusión
+
+Me gustaría que pensáramos en *datos eficaces*, es decir, datos que son de alta calidad pero que también incluyen otros aspectos que hacen que tengan éxito para nuestros objetivos.
+
+La eficacia de los datos (y la calidad de los datos) no es un objetivo en sí mismo; es un proceso iterativo, y espero que estos 7 "hábitos" te ayuden a decidir dónde centrar tus esfuerzos a continuación.
