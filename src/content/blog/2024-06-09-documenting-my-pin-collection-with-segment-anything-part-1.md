@@ -169,4 +169,4 @@ def view_masks(source, masks):
 
 It may be possible to modify the behaviour of the `SamAutomaticMaskGenerator` via arguments, however, when I modified some of these arguments I realised that (I did not know what I was doing, and)  sometimes the kernel died on me. I suppose my laptop does not have enough memory to run some combinations.
 
-While the initial attempts with SAM presented challenges, they provided valuable learning opportunities. In the next blog post, I will explore alternative methods and adjustments to enhance pin detection and achieve the interactivity I envision for my collection's display.
+While the initial attempts with SAM presented challenges, they provided valuable learning opportunities. In the [next blog post](https://blog.feregri.no/blog/documenting-my-pin-collection-with-segment-anything-part-2/), I will explore alternative methods and adjustments to enhance pin detection and achieve the interactivity I envision for my collection's display.
