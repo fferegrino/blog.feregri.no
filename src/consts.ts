@@ -25,7 +25,7 @@ export const SOCIALS = [
     },
     {
         name: "LinkedIn",
-        url: "https://www.linkedin.com/in/antonio.feregrino/",
+        url: "https://www.linkedin.com/in/antonioferegrino/",
         icon: "linkedin"
     },
     {
