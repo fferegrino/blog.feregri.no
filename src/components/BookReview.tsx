@@ -20,7 +20,7 @@ const BookReview = ({ data, slug }: Props) => {
 		<div key={isbn} className="bg-white rounded-lg shadow-md overflow-hidden">
             <div className="p-4">
               <div className="flex space-x-4">
-                <div className="flex-shrink-0 w-24 h-36 relative">
+                <div className="flex-shrink-0 w-20 h-36 relative">
 					<img
 						src={`https://ik.imagekit.io/thatcsharpguy/tr:w-500/feregri_no/book-covers/${isbn}.jpeg`}
 						alt={`Cover of ${title}`}
@@ -29,12 +29,12 @@ const BookReview = ({ data, slug }: Props) => {
 					/>
                 </div>
                 <div className="flex-grow min-w-0">
-                  <h2 className="text-lg font-semibold leading-tight mb-1 truncate" title={title}>
+                  <h2 className="text-lg font-semibold leading-tight truncate" title={title}>
                     {title}
                   </h2>
-                  <p className="text-sm text-gray-600 mb-1">{author}</p>
+                  <p className="text-xs text-gray-600 mb-1">{author}</p>
                   <StarRating rating={rating} />
-                  <p className="text-sm mt-2 line-clamp-3">{description}</p>
+                  <p className="text-sm mt-1 line-clamp-5">{description}</p>
                 </div>
               </div>
             </div>
