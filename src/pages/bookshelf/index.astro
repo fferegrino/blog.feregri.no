@@ -49,8 +49,8 @@ const fullText = "I have read some books and I want to share my thoughts about t
 				{
 					Object.keys(groupedByCategory).map((category) => (
 						<div class="flex flex-wrap">
-							<h2 id={slugify(category, {lower:true})} class="text-2xl font-bold mb-4  text-black dark:text-white [scroll-margin-top:60px]">{category}</h2>
-							<div>
+							<h2 id={slugify(category, {lower:true})} class="text-2xl font-bold mb-2 mt-2 text-black dark:text-white [scroll-margin-top:60px]">{category}</h2>
+							<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
 								{groupedByCategory[category].map((book) => (<BookReview data={book.data} slug={book.slug} />))}
 							</div>
 						</div>
