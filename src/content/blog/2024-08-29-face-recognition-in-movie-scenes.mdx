@@ -1,0 +1,351 @@
+---
+slug: face-recognition-in-movie-scenes
+title: "Face detection in movie scenes"
+description: "I started by thinking of this process as a data pipeline: starting with the full-length video, detecting scene changes, and then finding the faces in those scenes."
+publishDate: "2024-08-29"
+tags:
+  - mlops
+  - data
+heroImage: https://ik.imagekit.io/thatcsharpguy/posts/movie-trailers/face.png
+---
+
+I recently started [a new YouTube channel](https://www.youtube.com/@AntonioFeregrino/videos) where I review movies and TV shows. To make my videos a little bit more interesting, I show scenes from the trailers and the original movies instead of just my talking head.
+
+In particular, if I speak of a particular character, I like to show the scenes where that character appears. This is a process that I started doing manually by scrolling through the video and carefully selecting the scenes where the character appears, but then I thought, "_Wait a minute, this could be a job for a computer._" 
+
+The following is a step-by-step guide on how I did it and how you can do it too.
+
+## Overall architecture
+
+I started by thinking of this process as a data pipeline: starting with the full-length video, detecting scene changes, and then finding the faces in those scenes. With the faces extracted, I can perform clustering to group the faces belonging to the same individual. Once I have the clusters, I can just re-stitch the video with the scenes where the faces are from the same cluster.
+
+A pipeline that looks like this:
+
+![An initial pipeline design](https://ik.imagekit.io/thatcsharpguy/posts/movie-trailers/pipeline.jpeg?updatedAt=1724956887967)
+
+## Everything starts with a video
+
+I will be using a movie from the Malayalam film industry – a movie I recently reviewed on my channel, the movie is called *Ullozhukku* and this is its trailer:
+
+{% embed https://www.youtube.com/watch?v=iElmR97W024 %}
+
+I downloaded the video and saved it in my movies folder, and I will be using the path in my local machine:
+
+I downloaded the video and saved it in my movies folder, and I will be using the path in my local machine:
+
+```python
+original_video_path = 'Ullozhukku-Trailer.mp4'
+```
+
+## Scene detection
+
+Thankfully, there are libraries to help us out with scene change detection, such as `scenedetect`. 
+
+You can install it via pip:
+
+```bash
+pip install scenedetect[opencv]
+```
+
+It could not be easier to use the `detect` function along with a `ContentDetector` to detect the scenes in the video:
+
+```python
+from scenedetect import detect, ContentDetector
+
+scenes = detect(original_video_path, ContentDetector())
+```
+
+If needed you can further customize the scene detection by passing arguments to the `ContentDetector` constructor.
+
+The return value of the `detect` function is a list of tuples, where each tuple contains a scene's start and end time in the shape of a `FrameTimecode`. 
+
+`FrameTimecode` has methods to get the exact frame number and seconds.
+
+In my case, I'll be introducing a dataclass to store the scene data more conveniently:
+
+```python
+from dataclasses import dataclass
+
+
+@dataclass
+class Scene:
+    start_time: float
+    end_time: float
+    start_frame: int
+    end_frame: int
+
+    @property
+    def duration(self):
+        return self.end_time - self.start_time
+
+
+detected_scenes = [
+    Scene(
+        scene[0].get_seconds(),
+        scene[1].get_seconds(),
+        scene[0].get_frames(),
+        scene[1].get_frames(),
+    )
+    for scene in scenes
+]
+```
+
+## First frame extraction
+
+We will work under the assumption that the first frame of each scene is the most representative frame of the scene – after all, the scene is defined by dramatic changes between frames.
+
+Using `opencv` we can easily extract frames from a video, but first we need to turn the video into a `VideoCapture` object:
+
+```python
+import cv2
+
+video = cv2.VideoCapture(original_video_path)
+```
+
+We can use the `read()` method of the `VideoCapture` object to get the current frame in the video. However, we need to set the position of the video to the start of the scene we want to extract; we can do this using the `set()` method of the `VideoCapture` object.
+
+We need to do this for each scene in the video:
+
+```python
+first_frames = []
+for scene in detected_scenes:
+    video.set(cv2.CAP_PROP_POS_FRAMES, scene.start_frame)
+    _, frame = video.read()
+    first_frames.append(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+```
+
+`.read()` returns a tuple, where the first element is a boolean indicating whether the frame was successfully read, and the second element is the frame itself.
+
+`.cvtColor()` is used to convert the frame from BGR to RGB, which is the format expected by some image processing libraries in Python.
+
+For example, these are the first frames of six random scenes in the original video:
+
+![Some scenes from the original video](https://ik.imagekit.io/thatcsharpguy/posts/movie-trailers/extracted-scenes.png?updatedAt=1724905913873)
+
+## Face detection
+
+We will use the `ultralytics` library to detect the faces in the video – be aware that you may need to install the `torch` and `torchvision` libraries too.
+
+```bash
+pip install ultralytics
+```
+
+With `ultralytics` we can use a YOLO model to detect the faces in the video, in this case we need to use a custom model that has been trained to detect faces such as `yolov5s_face_relu6.pt` that I got from [this repository](https://github.com/DeGirum/ultralytics_yolov8/releases/tag/v1.0.0).
+
+```python
+from ultralytics import YOLO
+
+model = YOLO("yolov5s_face_relu6.pt")
+```
+
+If we call the model with a frame, it will return a list of results (with a single element), this single element is a complex object we need to treat before accessing the bounding box coordinates, the confidence score, and the class ID.
+
+```python
+results = model(first_frames[5], verbose=False)
+
+x1, y1, x2, y2, confidence, class_id = results[0].boxes.data.cpu().numpy()[0]
+
+print(f"x1: {x1}, y1: {y1}, x2: {x2}, y2: {y2}, confidence: {confidence}, class_id: {class_id}")
+```
+
+I will introduce another dataclass to store the detected faces:
+
+```python
+@dataclass
+class DetectedFace:
+    x1: int
+    y1: int
+    x2: int
+    y2: int
+```
+
+Then, we can iterate over the results and extract the detected faces, at this point we can also filter out the faces with low confidence, and just to be sure, we can check that the class ID is 0 (which corresponds to the `Human face` class):
+
+```python
+faces_in_frame = []
+detections = results[0].boxes.data.cpu().numpy()
+for det in detections:
+    x1, y1, x2, y2, confidence, class_id = det
+    if results[0].names[int(class_id)] == 'Human face':
+        if confidence > 0.5:
+            faces_in_frame.append(DetectedFace(int(x1), int(y1), int(x2), int(y2)))
+```
+
+And just as a sanity check, let's plot the detected faces for one frame:
+
+![Detected faces in a video scene](https://ik.imagekit.io/thatcsharpguy/posts/movie-trailers/detected-faces.png?updatedAt=1724905913100)
+
+## Face embedding
+
+Before clustering the faces, we need to extract the face embeddings. These embeddings are a numerical representation of the face that approximately encode facial features that we can then use to compare and cluster the faces.
+
+We will use the `face_recognition` library to extract the face embeddings.
+
+```bash
+pip install face-recognition
+```
+
+The `face_recognition` library provides a `face_encodings` function that can extract the face embeddings from a frame given a set of face locations:
+
+```python
+import face_recognition
+
+encodings = face_recognition.face_encodings(
+    first_frames[5],
+    [(face.y1, face.x2, face.y2, face.x1) for face in
+ faces_in_frame]
+    )
+```
+
+The `face_encodings` function returns a list of encodings, where each encoding is a numpy array of 128 values.
+
+We can use these encodings to compare and cluster the faces.
+
+## Putting it all together
+
+But before doing that, we need to detect the faces in each scene and extract the face embeddings, we also need to keep track of the scene id for each face to be able to retrieve the original scenes later.
+
+```python
+from collections import defaultdict
+
+def detect_faces(frame, confidence=0.5):
+    results = model(frame, verbose=False)
+    detections = results[0].boxes.data.cpu().numpy()
+
+    results = []
+    for det in detections:
+        x1, y1, x2, y2, conf, class_id = det
+        if class_id == 0 and conf > confidence:
+            results.append(DetectedFace(int(x1), int(y1), int(x2), int(y2)))
+
+    return results
+
+def extract_encodings(frame, detections):
+    return face_recognition.face_encodings(frame, [(detection.y1, detection.x2, detection.y2, detection.x1) for detection in detections])
+
+face_id = 0
+detected_faces = []
+encodings = []
+face_id_to_scene = {}
+for scene_id, frame in enumerate(first_frames):
+    face_detection_results = detect_faces(frame)
+    for detection in face_detection_results:
+        detected_faces.append(detection)
+        face_id_to_scene[face_id] = scene_id
+        face_id += 1
+    encodings.extend(extract_encodings(frame, face_detection_results))
+```
+
+By now we have a list of detected faces, a list of encodings, and a dictionary that maps each scene to the detected faces in that scene.
+
+## Clustering
+
+We will use the `scikit-learn` library to perform the clustering.
+
+```bash
+pip install scikit-learn
+```
+
+We will use the `DBSCAN` algorithm to cluster the faces. `DBSCAN` is a clustering algorithm that groups together points that are close to each other, and separates points that are far apart.
+
+It's a powerful algorithm that can find arbitrarily shaped clusters, and it doesn't require the number of clusters to be specified beforehand.
+
+It identifies high-density regions (clusters) and low-density regions (noise). It groups together points that are close to each other and separates points that are far apart.
+
+It requires two parameters to be set:
+- `eps`: the maximum distance between two samples to be considered in the same neighbourhood.
+- `min_samples`: the minimum number of samples in a neighbourhood for a point to be considered a core point.
+
+We can play with the parameters to see how the clustering changes – but in my experiments, I found that these values worked well:
+
+- `eps=0.45`
+- `min_samples=3`
+
+Let's perform the clustering using the encodings and print the results:
+
+```python
+from sklearn.cluster import DBSCAN
+
+clustering = DBSCAN(eps=0.45, min_samples=3)
+clustering.fit(encodings)
+```
+
+To get the clusters we can access the `labels_` attribute of the `DBSCAN` object, this will return an array of labels, one for each encoding. A label of -1 means that the encoding is a noise point (meaning that it's not part of any cluster).
+
+We can then use these labels to group the detected faces into clusters:
+
+```python
+face_clusters = defaultdict(list)
+for i, label in enumerate(clustering.labels_):
+    if label != -1:  # -1 is noise
+        face_clusters[label].append(i)
+```
+
+And just as a sanity check, let's plot some of the detected faces, now grouped by cluster.
+
+Remember that we have a dictionary that maps each face to the scene it belongs to, so we can use this to plot the detected faces in the original scenes.
+
+![Faces in cluster 0](https://ik.imagekit.io/thatcsharpguy/posts/movie-trailers/cluster-0.png?updatedAt=1724905913212)
+
+![Faces in cluster 1](https://ik.imagekit.io/thatcsharpguy/posts/movie-trailers/cluster-1.png?updatedAt=1724905913212)
+
+![Faces in cluster 2](https://ik.imagekit.io/thatcsharpguy/posts/movie-trailers/cluster-2.png?updatedAt=1724905913212)
+
+As you can see, the clustering algorithm has done a pretty good job of grouping the faces that belong to the same individual. However, we can see that some clusters contain more than one face, and some faces that belong to the same individual are in different clusters. 
+
+I only care about clear face shots for my use case, so whatever the algorithm didn't cluster correctly, I will discard it.
+
+## Assembling clips
+
+Now, we need to assemble the clips for each cluster. We will use the `moviepy` library to do this.
+
+```bash
+pip install moviepy
+```
+
+We will iterate over the desired clusters and assemble the clips for each cluster.
+
+Let's start by creating a function that takes a video and a list of scenes and returns a video clip containing the scenes using the `subclip` method of the `VideoFileClip` object. Then we can use the `concatenate_videoclips` function to concatenate the clips.
+
+```python
+from moviepy.editor import VideoFileClip, concatenate_videoclips
+
+def create_video(original_video, scenes, output_name):
+    subclips = [
+        original_video.subclip(scene.start_time, scene.end_time)
+        for scene in scenes
+    ]
+    final_clip = concatenate_videoclips(subclips)
+    final_clip.write_videofile(output_name, verbose=False)
+    final_clip.close()
+```
+
+Then we can use this function to assemble the clips for each cluster by iterating over the desired clusters, selecting the scenes where the faces in the cluster appear, and then creating a video clip for each cluster with the function we just created:
+
+```python
+desired_clusters = [1, 2]
+output_names = ['Parvathy', 'Urvashi']
+
+original_video = VideoFileClip(original_video_path)
+
+for cluster_id, output_name in zip(desired_clusters, output_names):
+    original_video = VideoFileClip(original_video_path)
+    face_ids = face_clusters[cluster_id]
+    scene_ids = [face_id_to_scene[fid] for fid in face_ids]
+    scenes = [detected_scenes[scene_id] for scene_id in scene_ids]
+
+    video_name = f"{output_name}.mp4"
+    create_video(original_video, scenes, video_name)
+
+original_video.close() 
+```
+
+And that's it! We have successfully clustered the faces in the video and assembled the clips for each cluster. Just what we wanted.
+
+Find the results below:
+
+{% embed https://www.youtube.com/watch?v=f9t-11feZqc %}
+
+The code is far from perfect and could be optimized further, but it works well for my use case, and I hope it can be helpful for yours too, or at least it gives you some ideas on how to tackle your own problem.
+
+If you want the full code, find [it in this Jupyter Notebook](https://colab.research.google.com/drive/1U17aMuTrlWqMV4pYUbLABZt4skfR6ftM?usp=sharing). 
