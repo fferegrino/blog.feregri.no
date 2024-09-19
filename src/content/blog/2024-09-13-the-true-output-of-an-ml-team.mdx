@@ -1,0 +1,103 @@
+---
+slug: the-true-output-of-an-ml-team
+title: "Beyond the pickle: the true output of a machine learning team"
+description: "I started by thinking of this process as a data pipeline: starting with the full-length video, detecting scene changes, and then finding the faces in those scenes."
+publishDate: "2024-09-13"
+tags:
+  - mlops
+  - data
+heroImage: https://ik.imagekit.io/thatcsharpguy/posts/movie-trailers/face.png
+---
+
+Picture this: A data scientist gets handed a problem, disappears into the depths of a data warehouse for months, and emerges triumphantly clutching a pickle file. What is inside this file? A model boasting impressive accuracy ready to be tossed over the wall for the software engineers to put it in production.
+
+**We did it! Machine learning is done!**
+
+_But not really._
+
+In the early days of ML - and let's be honest, this is still the case in many companies today - everything revolved around this mythical creature known as _"The Data Scientist"_. They were expected to do everything, from data wrangling to model building and production deployment. It's a seductive idea but one that's fraught with problems.
+
+## The messy reality
+
+Some of the problems that arise from this and similar approaches are:
+
+ - **Misallocation of Skills**: Data scientists are brilliant, but their skills are often better used elsewhere. Their coding abilities might not be top-notch when it comes to optimised code, and I'm pretty sure that for most of them, writing thousands of lines of SQL isn't their idea of a good time.
+ - **Disconnection from Production**: This approach keeps data scientists in the dark about the realities of production deployments, and while it sounds like a good deal to some of them, they're robbed of valuable learning opportunities that could inform their future work opportunities.
+ - **Implementation Struggles**: When it comes time to deploy, MLOps, ML and software engineers often find themselves scratching their heads, trying to decipher the data scientist's code and understand how it's supposed to solve the problem. It's like being handed a jigsaw puzzle with half the pieces missing.
+ - **Feature Mismatch**: Since the data warehouse is static, it is easy to become feature greedy. The model might be built with features that aren't even available when it's time to run inference in the real world. Imagine training for a marathon at home on a treadmill and then being surprised when upon discovering that the race is in the Himalayas.
+ - **Lack of Scalability**: When every project relies on a single person or small team to handle everything from start to finish, it becomes nearly impossible to scale up operations or take on multiple projects simultaneously.
+ - **Maintenance Nightmares**: Once the model is deployed, who monitors its performance? Who updates it when it inevitably starts to degrade? The data scientist is often long gone by this point, already working on the next project.
+
+The result of all this? Frustrated stakeholders tapping their feet, wondering why everything's taking so long or breaking into pieces, sometimes slowly, sometimes with a loud bang. The promise of ML turns into a waiting game.
+
+Now, I'm not here to point fingers. Data scientists are awesome-I even tried to be one-but I didn't have their patience and skills. **What I'm getting at is the importance of collaboration, tools, and culture in making ML projects successful.**
+
+## From model factories to factories of factories
+
+So here's my proposal: Instead of seeing the end product as a trained model in production, what if we aimed for something bigger? What if our goal was to create code that creates, retrains, and monitors models?
+
+> In other words, let's stop being a factory of models and become a factory of factories of models.
+
+![A factory of factories](https://ik.imagekit.io/thatcsharpguy/posts/i-guess-we.png?updatedAt=1726774816172)
+
+This isn't just a semantic difference - it's a fundamental shift to approach machine learning projects.
+
+## Advantages of the Factory of Factories approach
+
+- **Enhanced Reproducibility**: We don't rely on one lucky training session or the intuition of a single data scientist. Every step of the process is documented and repeatable.
+- **Better Error Handling**: With monitoring and training pipelines in place, we can often fix issues without engaging the data scientist every single time something goes wrong.
+- **Improved Scalability**: Once we have the infrastructure in place to automatically create and manage models, we can handle multiple projects simultaneously without a linear increase in workload.
+- **Faster Time-to-Market**: With automated pipelines for data preparation, model training, and deployment, we can go from idea to production much more quickly.
+- **Better Resource Allocation**: Data scientists can focus on high-value tasks like feature engineering and model architecture rather than getting bogged down in operational tasks.
+- **Increased Collaboration**: Clearly defined processes and shared interfaces make it easier for team members with different specialities to work together effectively.
+- **Continuous Improvement**: With automated retraining and monitoring, models can continuously adapt to new data, maintaining their performance over time without manual intervention.
+- **Enhanced Governance and Compliance**: Automated pipelines make it easier to implement and enforce standards for data handling, model validation, and deployment.
+
+## Making it Happen: The Roadmap to Success
+
+Becoming a factory of factories doesn't happen overnight. It requires a fundamental shift in both tooling and culture.
+
+Here is a non-comprehensive list of what is needed:
+
+### Essential Tools
+
+- **Well-documented Data Stores**: Whether it's a data lake, warehouse, or feature store, data should be ready for data scientists to consume. The documentation should include feature lineage and availability (i.e., is this feature available in real-time?). The feature stores should also be easy to modify and add features as necessary.
+- **Experimentation Platforms**: Data scientists need environments where they can quickly test ideas without worrying about breaking production systems.
+- **ML-Specific Infrastructure**: Whether a cloud platform or on-premise solution, the infrastructure should be optimised for the demands of machine learning workloads.
+- **Experiment, artefact and model tracking**: Tools that allow teams to keep track of different experiments, compare model versions, and understand what works and what doesn't. This could also serve as a model catalogue, a place where everyone gets to know what is in production.
+- **Standardised Development and Deployment Frameworks**: Tools that work seamlessly across the development-to-production pipeline, minimising the need for code rewrites or complex handoffs.
+- **Automated Monitoring Solutions**: Systems that can track model performance, data drift, and other key metrics without constant human oversight but capable of alerting when things go wrong.
+- **Version Control System**: Tracking models and experiments is not enough; it is also necessary to track the code that creates them, which is our main product.
+- **Collaborative Platforms**: Tools that facilitate communication and knowledge sharing across different roles in, and out of the ML team.
+
+### Necessary Cultural Shifts
+
+- **Involved Data Scientists**: They need to get comfortable with a wider range of tools. We are not aiming for a know-it-all full-stack data scientist here, just one who understands and takes advantage the tooling available to them.
+- **Investment in Infrastructure**: Businesses must understand that investing in the right tools and platforms pays dividends in the long run.
+- **Inclusive Planning**: Everyone, including technical staff, should have a seat at the table from the beginning of a project and when defining its scope and stages.
+- **Stakeholder Buy-In**: There needs to be a willingness to try and test intermediate outputs. Machine learning is not a silver bullet; it needs early and constant feedback. Teams need to be comfortable with continuous improvement and iteration.
+- **Long-Term Thinking**: Organisations need to plan for ongoing maintenance and improvement of their ML systems. Software degrades quickly, and machine learning degrades even worse because it is software PLUS messy data.
+- **Enhanced Communication**: Regular check-ins and clear communication channels between data teams, ML teams, and other parts of the organisation are essential. Due to its nature, ML tends to be at the end of the data food chain and, as such, is often forgotten by the upstream data generators.
+- **Cross-Functional Teams**: Breaking down silos between data scientists, ML engineers, software developers, and domain experts leads to more robust and practical solutions.
+
+#### A note on AutoML
+
+Some people see AutoML as a solution for adopting machine learning in their organisations. These platforms try to automate many aspects of the ML pipeline, offering advantages like close integration with your data, ML democratization, easy monitoring, and faster time to market.
+
+However, AutoML tools have potential drawbacks: the risk of vendor lock-in, limited customization for specific business needs, potential deployment restrictions, and difficulty understanding what happens under the hood.
+
+While valuable, AutoML tools may not replace the need for custom ML pipelines as operations grow more complex; They're just one tool in the ML toolkit and don't negate the need for changes. You can consider them a starting point but be prepared to supplement or replace them with custom solutions as your ML operations mature.
+
+## The True Measure of Success
+
+This doesn't mean you need to have all the pieces in place right now to call yourself a success. Getting set up takes time, and it's a process. Every step you take towards this vision is progress. Start small, focus on one part of your workflow, then build from there.
+
+And if you have to start somewhere, go with the culture first. Tools come and go, but a solid cultural foundation will serve you well regardless of the specific technologies you're using.
+
+As this culture takes root, you'll find it easier to identify which tools you need and how to implement them effectively. You'll also be better positioned to use these tools in a way that truly enhances your ML capabilities rather than just adding complexity.
+
+The true goal of a machine learning team should never be to create a single perfect model or to have the fanciest tech stack. It's to create a system - and a team - that can consistently produce, improve, and maintain effective models. That's how we'll truly harness the power of machine learning in a way that's sustainable, scalable, and actually useful.
+
+**Remember, factories of factories.**
+
+[Thanks to Ned Webster and Lorraine D'Almeida for the feedback on this post]
