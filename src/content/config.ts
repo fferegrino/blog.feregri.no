@@ -41,6 +41,7 @@ const bookshelf = defineCollection({
 		category: z.string(),
 		isbn: z.string().optional(),
 		links: z.array(z.object({ url: z.string(), text: z.string() })).optional(),
+		recommended: z.boolean().optional().default(false),
 	}),
 });
 

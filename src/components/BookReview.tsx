@@ -1,4 +1,5 @@
 import StarRating from "./StarRating";
+import ReactMarkdown from 'react-markdown';
 
 interface Props {
 	data: any;
@@ -15,9 +16,21 @@ interface BookReview {
 
 const BookReview = ({ data, slug }: Props) => {
 
-	const { title, description, author, isbn, rating } = data;
+	const { title, description, author, isbn, rating, recommended } = data;
+	const parentClasses = ["bg-white", "rounded-lg", "shadow-md", "overflow-hidden"];
+	parentClasses.push("border-2", "border-gray-100");
+	if (recommended) {
+		parentClasses.push("hover:border-green-500");
+		parentClasses.push("hover:bg-green-50");
+	}
+		
 	return (
-		<div key={isbn} className="bg-white rounded-lg shadow-md overflow-hidden">
+		<div key={isbn} className={parentClasses.join(" ")}>
+			{/* {recommended && (
+              <div className="absolute top-0 right-0 -mr-14 -mt-1 w-48 h-12 bg-green-500 text-white text-center transform rotate-45 z-10">
+                <span className="block mt-6 text-sm font-semibold">Recommended</span>
+              </div>
+            )} */}
             <div className="p-4">
               <div className="flex space-x-4">
                 <div className="flex-shrink-0 w-20 h-36 relative">
