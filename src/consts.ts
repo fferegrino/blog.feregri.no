@@ -14,9 +14,14 @@ export type SocialNetwork = {
 
 export const SOCIALS = [
     {
-        name: "Twitter",
-        url: "https://twitter.com/feregri_no",
-        icon: "twitter"
+        name: "Bluesky",
+        url: "https://bsky.app/profile/feregri.no",
+        icon: "bluesky"
+    },
+    {
+        name: "Threads",
+        url: "https://www.threads.net/@feregri_no",
+        icon: "threads"
     },
     {
         name: "GitHub",
