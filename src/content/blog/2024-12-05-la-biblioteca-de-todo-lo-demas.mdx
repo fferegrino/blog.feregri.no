@@ -1,0 +1,107 @@
+---
+slug: la-biblioteca-de-todo-lo-demas
+title: "La biblioteca de 'todo lo demás'"
+description: "Algunas ideas para gestionar tu propia biblioteca de código compartido"
+publishDate: "2024-12-05"
+tags:
+  - mlops
+  - software
+  - code
+heroImage: https://ik.imagekit.io/thatcsharpguy/posts/covers/todo-lo-demas.jpg
+---
+
+# El paquete de "todo lo demás"
+
+En el principio, no había nada más que un gran desorden de código. Luego, el Big Bang: "Estamos usando este código una y otra vez; ¿qué tal si ponemos este código en un solo módulo y lo compartimos entre nuestras bases de código?"
+
+Entonces comenzó una hermosa danza; hubo altibajos: "Sí, esta fue una gran idea. Podemos poner todo lo que queramos allí", y bajos: "¿Por qué hicimos esto? ¡Es un desastre imposible de mantener!"
+
+Y luego el ciclo continúa: "dividamos esto en bibliotecas más pequeñas" solo para darse cuenta "esto está demasiado fragmentado, fusionémoslo en un solo paquete".
+
+Estoy seguro de que esta no es solo mi experiencia, en mi carrera he hablado con otros desarrolladores que han pasado por al menos uno de estos ciclos - a veces la gente los llama "utils", "common" pero personas más cínicas que yo también los conocen como bibliotecas "kitchen sink" (fregadero de cocina).
+
+## Una pila de cosas: ¿Por qué agrupamos código?
+
+### DRY - no te repitas
+
+Cada vez que trabajas en múltiples proyectos, ya sea como desarrollador individual o en equipo, es inevitable que te encuentres con fragmentos de código que sigues reutilizando todo el tiempo, por lo que es lógico que empieces a cuestionarte si no sería mejor que este código viva en una ubicación compartida donde todos los demás proyectos puedan acceder a él en lugar de copiar el código de un proyecto a otro.
+
+Todos estamos demasiado familiarizados con el concepto de DRY, Don't Repeat Yourself (No te repitas) - un principio de desarrollo de software que "anima a los desarrolladores a tener una representación única, inequívoca y autoritativa de cada pieza de conocimiento o lógica dentro de un sistema", pero que prácticamente todo el mundo traduce como "evitar duplicar código e información en toda la base de código", aunque la idea es aplicarlo en todas partes: desde bases de datos hasta documentación.
+
+En la locura por evitar violar este principio, a veces somos demasiado rápidos en agrupar piezas de código, mezclando código cuya única relación es el hecho de que se usa en muchas partes del mismo proyecto y a veces no encaja del todo en un solo lugar.
+
+### ¿Qué hay de los estándares?
+
+Sé que DRY no es la única razón por la que nos sentimos atraídos a agrupar código aparentemente no relacionado, a veces tomamos esta medida para hacer cumplir estándares, por ejemplo, al mantener una plataforma o un framework, es posible que desees codificar ciertas prácticas "buenas" que quieres que tus usuarios sigan: No conexiones no autorizadas a la base de datos, no múltiples formas extrañas diferentes de validar correos electrónicos, o que cada desarrollador implemente el mismo algoritmo de hash para contraseñas.
+
+## ¿Está mal?
+
+Si bien crear paquetes "comunes" o los famosos _"utils"_ no es inherentemente incorrecto, es una práctica que requiere una cuidadosa consideración y gestión continua. Los beneficios de la reutilización de código y la estandarización deben equilibrarse con los posibles inconvenientes de un mayor acoplamiento entre proyectos, el riesgo de crear una biblioteca "kitchen sink" y los desafíos de mantener y evolucionar una base de código compartida.
+
+## ¿Cómo podemos mejorarlo?
+
+No pretendo tener la verdad, ni sugiero que hagas todo esto, pero aquí hay algunas ideas que creo que podrías implementar para gestionar tu propia biblioteca de "todo lo demás".
+
+### Define "propiedad"
+
+En primer lugar, necesitas saber quién está a cargo de tu código compartido. Un barco necesita un capitán - ¡alguien necesita dirigir esta cosa! Asigna un equipo dedicado (si puedes permitírtelo) o un individuo como propietario del paquete. Serán responsables del mantenimiento, actualizaciones y soporte.
+
+Pero no te preocupes, esto no significa que estén solos, o que tenga que ser un trabajo a tiempo completo. Establece un proceso para que otros equipos o individuos contribuyan o soliciten cambios. Después de todo, es código compartido, ¿verdad? Los ciclos de revisión regulares también son cruciales para evaluar la dirección del paquete y asegurarse de que sigue alineado con lo que tu organización necesita.
+
+### Ten un proceso claro para adoptar nuevas características
+
+Ahora que tienes tu capitán, necesitas algunas reglas para el viaje. Implementar un proceso de revisión para agregar nuevas características a tu paquete compartido es clave. Piensa en ello como una lista de verificación antes de permitir nuevos pasajeros a bordo.
+
+Haz preguntas como: ¿Por qué este código debería ser compartido? ¿Cuál es el impacto potencial en los proyectos existentes? ¿Se alinea con el propósito general del paquete? A veces, podrías darte cuenta de que crear un paquete separado y más enfocado es una mejor solución. Recuerda, ¡no todo necesita estar en el mismo barco!
+
+Podrías intentar establecer algunas reglas o heurísticas para incorporar nuevas características, por ejemplo:
+
+- La "Regla de Tres": Solo incorpora código que se esté utilizando en al menos tres aplicaciones diferentes. Esto asegura que no estés creando código compartido para escenarios únicos.
+- La "Regla del 50%": Si una pieza de código se usa en más de la mitad de tus proyectos activos, es un fuerte candidato para la biblioteca compartida.
+- El "Umbral de Complejidad": Solo comparte código que esté por encima de cierto nivel de complejidad. Por ejemplo, una simple función de utilidad de dos líneas podría no valer la pena el esfuerzo de ponerla en una biblioteca compartida.
+
+### No tengas miedo de decir no
+
+En algún momento, algunos desarrolladores o equipos pueden querer dejar su huella en el código compartido, ya sea porque piensan que su código es increíble o porque creen que alguien más se beneficiará de él; no se lo permitas a menos que hayan seguido el proceso - muchas veces, estas contribuciones bien intencionadas pueden llevar a que el paquete se vuelva demasiado grande y confuso si no se examinan adecuadamente.
+
+Recuerda, decir "no" no se trata de ser difícil o estar obsesionado con el control. Se trata de asegurar la salud y utilidad a largo plazo de tu código compartido. A veces, la mejor manera de mantener tu barco navegando sin problemas es rechazar cortésmente carga extra, no importa cuán brillante o útil pueda parecer a primera vista.
+
+### Documenta agresivamente
+
+Con las características definidas y un proceso en su lugar, es hora de documentar. Sin documentación, los desarrolladores están navegando en la oscuridad.
+
+Incluye documentación clara y actualizada de la API, ejemplos de uso y mejores prácticas. No olvides un registro de cambios para rastrear actualizaciones y cambios importantes. Es como el diario de a bordo de un barco, ayudando a todos a entender el viaje hasta ahora. Esta documentación también debe incluir las pautas de contribución, así como los procesos de lanzamiento, recuerda que es para que otros desarrolladores entiendan cómo funciona todo.
+
+### Control de versiones y compatibilidad
+
+Ahora que tenemos documentación y un paquete, necesitamos asegurarnos de que todos estén usando la versión correcta, ¡quieres asegurarte de que todos estén en la misma página, literalmente!
+
+Comienza por alguna metodología de versionado, por ejemplo, el versionado semántico. Es como un código que le dice a tu tripulación con qué tipo de cambios están lidiando. ¿Un cambio en el primer número? ¡Aseguren todo, es un cambio mayor! ¿Segundo número? Nuevas características, pero nada se está rompiendo. ¿Tercer número? Solo algunas correcciones menores, navegación suave por delante.
+
+El registro de cambios es crucial ya que ayuda a los consumidores a entender qué hay de nuevo, qué se ha arreglado y qué ha cambiado. Créeme, el tú del futuro (y todos los demás) te lo agradecerán.
+
+### Implementa herramientas para evaluar constantemente el uso
+
+Ahora que estás navegando sin problemas, necesitas mantener un ojo en cómo está funcionando el barco. Monitorear regularmente cómo se está utilizando tu código compartido en todos los proyectos es crucial.
+
+Implementa análisis de uso en tu paquete compartido, si es posible a través de telemetría, o algo simple que podrías implementar es el análisis estático de código, revisando las declaraciones de importación en las bases de código de los proyectos consumidores.
+
+### No tengas miedo de deprecar y eliminar características no utilizadas
+
+Finalmente, no tengas miedo de tirar por la borda el peso innecesario. Mantener un paquete compartido delgado y enfocado es crucial para la sostenibilidad a largo plazo. Cuando descubras que una característica ya no se usa lo suficiente, es hora de que se vaya - ya sea eliminada o movida de vuelta a los pocos lugares donde aún se usa.
+
+Por supuesto, antes de presionar eliminar, deberías haber establecido una política de depreciación con plazos claros. Comunica las depreciaciones temprano y con frecuencia a los equipos afectados. En mi experiencia, las personas necesitan recordatorios constantes. Obviamente, los equipos o aplicaciones afectadas necesitarían algún tipo de guía de migración, así que asegúrate de proporcionarla.
+
+## ¿Es demasiado?
+
+Tal vez me excedí - no creo haber hecho tanto yo mismo -, pero no tienes que hacerlo todo de una vez. Una biblioteca como esta no es un destino sino un viaje. Piensa en ello como una tarea de Sísifo, pero una que vale la pena el esfuerzo.
+
+Comienza poco a poco. Elige una o dos de estas estrategias que parezcan más relevantes para tu situación actual. Tal vez comiences definiendo claramente la propiedad y documentando agresivamente. A medida que te sientas más cómodo y veas los beneficios, puedes implementar gradualmente otras prácticas.
+
+La clave es comenzar en algún lugar. Incluso mejoras menores pueden hacer una gran diferencia en la mantenibilidad y usabilidad de tu código compartido. Así que elige un punto de partida y comienza tu viaje hacia una mejor gestión del código compartido.
+
+## Conclusión
+
+Gestionar código compartido es un equilibrio delicado. Requiere una planificación cuidadosa, vigilancia constante y disposición para ajustar el rumbo cuando sea necesario. Al implementar prácticas como propiedad clara, adopción reflexiva de características, documentación exhaustiva y evaluación regular, puedes crear una base de código compartida que realmente cumpla su propósito sin convertirse en una carga inmanejable.
+
+Recuerda, el objetivo no es crear una biblioteca perfecta y que lo abarque todo, sino desarrollar un recurso útil y mantenible que evolucione con tus necesidades. Con estas estrategias en tu kit de herramientas, estás bien equipado para navegar los desafíos de la gestión de código compartido y navegar hacia prácticas de desarrollo más eficientes y estandarizadas.
