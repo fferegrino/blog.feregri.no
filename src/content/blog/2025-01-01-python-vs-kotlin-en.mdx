@@ -1,0 +1,381 @@
+---
+slug: python-vs-kotlin
+title: "Python vs Kotlin: A Beginner's Guide"
+description: "A beginner's guide to Python vs Kotlin. Similarities and differences between the two languages."
+publishDate: "2025-01-01"
+tags:
+  - kotlin
+  - python
+  - code
+heroImage: https://ik.imagekit.io/thatcsharpguy/posts/docker/kotlin-kernel/fight@1x.png
+---
+
+As a Python developer venturing into the world of Kotlin, you'll find many similarities and some key differences between these two popular programming languages. This guide aims to provide a side-by-side comparison of Python and Kotlin, highlighting their syntax and features to help you transition smoothly.
+
+Python is known for its simplicity and readability, making it a favorite among beginners and experienced developers alike. It's widely used in various fields, including web development, data science, and artificial intelligence.
+
+Kotlin, on the other hand, is a more recent language that has gained popularity, especially in Android development. It's designed to be fully interoperable with Java while offering more concise syntax and additional features.
+
+This comparison will cover several key aspects of both languages, including variable names, functions, working with collections, higher-order functions, destructuring, data classes, conditional statements (`if` vs `match`/`when`) and pattern matching.
+
+Each section will provide code examples in both Python and Kotlin, allowing you to see the similarities and differences side by side. This approach will help you understand how familiar Python concepts translate to Kotlin, making your learning process more intuitive.
+
+Let's dive in and explore how these two powerful languages compare!
+
+## Variable names
+
+This one is more of a difference than a similarity. While both languages allow you to use camelCase or snake_case for variable names, Kotlin, following the Java tradition, recommends camelCase for variable names.
+
+One thing to note is that there are different kinds of variables in Kotlin, like `val` and `var`. `val` is a value, which means it's a constant, and you can't change it. `var` is a variable, which means you can change it.
+
+```kotlin
+val filePath = "user/config/feature.yml"
+filePath
+```
+
+In Python, it is suggested to use snake_case for variable names; and unlike Kotlin you don't need to declare the type of the variable and its type can be changed anytime during runtime.
+
+
+```python
+file_path = "user/config/feature.yml"
+print(file_path)
+```
+
+## Functions
+
+In Kotlin, you can define a function using the `fun` keyword. The function name is followed by the parameters in parentheses, and the body is enclosed in curly braces. Notice that the function name follows the _camelCase_ convention. And the arguments are typed.
+
+
+```kotlin
+fun sayFile(file: String, prefix: String = "/") {
+    println("$prefix$file")
+}
+```
+
+Then, calling the function is straightforward. You can call the function with the arguments in the order they are defined, or you can use named arguments to specify which argument corresponds to which parameter.
+
+```kotlin
+sayFile(filePath)
+sayFile(filePath, prefix = "C:/")
+sayFile(prefix = "D:/", file=filePath)
+```
+
+In Python, you can define a function using the `def` keyword. The function name is followed by the parameters in parentheses, and the body is not enclosed in curly braces, the body is indented. Notice that the function name follows the _snake_case_ convention. In this case, the typing is optional and not enforced at runtime.
+
+```python
+def say_file(file: str, prefix: str = "/"):
+    print(f"{prefix}{file}")
+```
+
+Calling the function is similar to Kotlin. You can call the function with the arguments in the order they are defined, or you can use named arguments to specify which argument corresponds to which parameter.
+
+```python
+say_file(file_path)
+say_file(file_path, prefix = "C:/")
+say_file(prefix = "D:/", file=file_path)
+```
+
+## Working with collections
+
+In Kotlin, collections are typically created using factory functions like `listOf()`. The language provides powerful functional programming capabilities with method chaining.
+
+```kotlin
+val numbers = listOf(1, 2, 3, 4, 5, 6, 7, 8)
+```
+
+Then, you can use the `filter` and `map` functions to transform the collection. Notice that the `filter` and `map` functions are called on the collection, and the result is assigned to a new variable.
+```kotlin
+var squared = numbers.filter({ x -> x % 2 == 0}).map({ x -> x * x})
+squared
+```
+
+Kotlin allows for increasingly concise lambda syntax, if the last parameter of a function is a lambda, you can omit the parentheses (this is very confusing at first). 
+
+```kotlin
+squared = numbers.filter{ x -> x % 2 == 0}.map{ x -> x * x}
+squared
+```
+
+In an attempt to make the code more readable, Kotlin allows you to use the `it` keyword to represent a single parameter, making the code more concise.
+
+```kotlin
+squared = numbers.filter{ it % 2 == 0 }.map{ it * it }
+squared
+```
+
+In Python, collections, such as lists, are created using square brackets. A bit more straightforward than Kotlin.
+
+```python
+numbers = [1, 2, 3, 4, 5, 6, 7, 8]
+```
+
+Then, you can use the `map` function to transform the collection. Notice that the `map` function is called on the collection, and the result is assigned to a new variable.
+
+```python
+squared = list(map(lambda x: x * x, filter(lambda x: x % 2 == 0, numbers)))
+```
+
+However, Python's list comprehension provides a more readable and concise way to achieve the same result.
+
+```python
+squared = [x * x for x in numbers if x % 2 == 0]
+```
+
+## Higher order functions
+
+Both Kotlin and Python have functions as first-class citizens, which means you can pass them as arguments to other functions and return them as results.
+
+This is how you can define a higher order function in Kotlin, notice the `map_fn` and `filter_fn` are functions that are passed as arguments to the `mapAndFilter` function, and their types declared as `(Int) -> Int` and `(Int) -> Boolean` respectively.
+
+
+```kotlin
+fun mapAndFilter(elements: List<Int>, map_fn: (Int) -> Int, filter_fn: (Int) -> Boolean) : List<Pair<Int, Int>> {
+    return elements.filter(filter_fn).map({ it to map_fn(it)})
+}
+```
+
+We can define some lambda functions to use with the `mapAndFilter` function, for example, `is_odd` is a function that returns `true` if the number is odd, and `square` is a function that returns the square of a number.
+
+Then, we can call the `mapAndFilter` function with the `numbers` collection, the `square` function, and the `is_odd` function.
+
+```kotlin
+val is_odd = { i: Int -> i % 2 == 0 }
+val square = { i: Int -> i * i }
+
+mapAndFilter(numbers, square, is_odd)
+```
+
+On the other hand, Python being more dynamic, we can just declare some variables and use them as functions. Making them the right types is the job of the developer.
+
+```python
+def map_and_filter(elements, map_fn, filter_fn):
+    return [(el, map_fn(el)) for el in elements if filter_fn(el)]
+```
+
+Then, we can define some lambda functions to use with the `map_and_filter` function, for example, `is_odd` is a function that returns `true` if the number is odd, and `square` is a function that returns the square of a number.
+
+```python
+is_odd = lambda i: i % 2 == 0
+square = lambda i: i * i
+
+map_and_filter(numbers, square, is_odd)
+```
+
+## Destructuring
+
+Both languages support destructuring in for loops and assignments, for example, to iterate over the `mapAndFilter` function result and print the key and value we can just group the elements in a tuple defined by parentheses.
+
+```kotlin
+for ((key, value) in mapAndFilter(numbers, square, is_odd)) {
+    println("$key maps to $value")
+}
+```
+
+In Python, the syntax is more flexible, working with any iterable, including in for loops and assignments.
+
+
+```python
+for key, value in map_and_filter(numbers, square, is_odd):
+    print(f"{key} maps to {value}")
+```
+
+In Python, you can also use the `*` operator to unpack the elements of the collection – in the code below, `v1` and `v2` will be the first two elements of the list, and `last` will be the last element of the list, the rest will be ignored.
+
+```python
+values =['A', 'B', 'C', 'X', 'Y', 'Z']
+
+v1, v2, *_, last = values
+
+print(v1, last)
+```
+
+## Data classes
+
+Both languages have built-in support for data classes, which provide a way to create lightweight objects to hold data.
+
+In Kotlin, you can define a data class using the `data class` keyword. The class name is followed by the parameters in parentheses, and the body is enclosed in curly braces.
+
+```kotlin
+data class Person(open val name: String)
+
+val ronnie = Person("Ronnie")
+ronnie
+```
+
+In Python, you can define a data class using the `@dataclass` decorator. The class body contains the fields of the class.
+
+```python
+from dataclasses import dataclass
+
+@dataclass
+class Person:
+    name: str
+
+ronnie = Person("Ronnie")
+ronnie
+```
+
+## `if` vs `match`/`when`
+
+Even though both languages have conditional statements, in Kotlin the `when` statement is widely used when you want to match a value against multiple possible cases.
+
+```kotlin
+val wheels = 3
+
+when (wheels) {
+    1 -> println("Unicycle")
+    2 -> println("Bicycle")
+    3 -> println("Tricycle")
+    4 -> println("Car")
+    else -> println("Unknown")
+}
+```
+
+In newer versions of Python we can use a similar construct, the `match` statement.
+
+```python
+wheels = 3
+
+match wheels:
+    case 1:
+        print("Unicycle")
+    case 2:
+        print("Bicycle")
+    case 3:
+        print("Tricycle")
+    case 4:
+        print("Car")
+    case _:
+        print("Unknown")
+```
+
+But as that is a relatively recent feature, in older versions of Python we can use the `if` statement – which is still the recommended way to handle conditional statements.
+
+```python
+wheels = 3
+
+if wheels == 1:
+    print("Unicycle")
+elif wheels == 2:
+    print("Bicycle")
+elif wheels == 3:
+    print("Tricycle")
+elif wheels == 4:
+    print("Car")
+else:
+    print("Unknown")
+```
+
+## Pattern matching
+
+The `when` statement in Kotlin is very powerful, in fact it can be used to perform some pattern matching.
+
+```kotlin
+open class Person(open val name: String)
+data class Employee(override val name: String, val position: String) : Person(name)
+data class Student(override val name: String, val major: String) : Person(name)
+data class Teacher(override val name: String, val subject: String) : Person(name)
+```
+
+The function below is a simple function that takes a `Person` object and returns a string describing the person, it uses the `when` statement to match the type of the `person` object and return a string describing the person based on its type.
+
+```kotlin
+fun describePerson(person: Person) : String {
+    return when (person) {
+        is Employee -> "Employee ${person.name} works as ${person.position}"
+        is Student -> "Student ${person.name} is majoring in ${person.major}"
+        is Teacher -> "Teacher ${person.name} teaches ${person.subject}"
+        else -> "Person ${person.name}"
+    }
+}
+```
+
+Then, we can create some instances of the `Person` class and call the `describePerson` function with them.
+
+```kotlin
+val person1 = Person("Alice")
+val employee = Employee("Bob", "Developer")
+val student = Student("Charlie", "Computer Science")
+val teacher = Teacher("David", "Mathematics")
+
+println(describePerson(person1))   // Output: Person Alice
+println(describePerson(employee))  // Output: Employee Bob works as Developer
+println(describePerson(student))   // Output: Student Charlie is majoring in Computer Science
+println(describePerson(teacher))   // Output: Teacher David teaches Mathematics
+```
+
+And in Python, we can use the `match` statement to perform pattern matching, in this case we have a more powerful pattern matching than Kotlin.
+
+```python
+from dataclasses import dataclass
+
+@dataclass
+class Person:
+    name: str
+
+@dataclass
+class Employee(Person):
+    position: str
+
+@dataclass
+class Student(Person):
+    major: str
+
+@dataclass
+class Teacher(Person):
+    subject: str
+
+```
+
+The `describe_person` function is similar to the `describePerson` function in Kotlin, but it uses the `match` statement to match the type of the `person` object and return a string describing the person based on its type.
+
+```python
+def describe_person(person):
+    match person:
+        case Employee(name=name, position=position):
+            return f"Employee {name} works as {position}"
+        case Student(name=name, major=major):
+            return f"Student {name} is majoring in {major}"
+        case Teacher(name=name, subject=subject):
+            return f"Teacher {name} teaches {subject}"
+        case Person(name=name):
+            return f"Person {name}"
+        case _:
+            return "Unknown person type"
+```
+
+Then, we can create some instances of the `Person` class and call the `describe_person` function with them.
+
+```python
+person1 = Person("Alice")
+employee = Employee("Bob", "Developer")
+student = Student("Charlie", "Computer Science")
+teacher = Teacher("David", "Mathematics")
+
+print(describe_person(person1))   # Output: Person Alice
+print(describe_person(employee))  # Output: Employee Bob works as Developer
+print(describe_person(student))   # Output: Student Charlie is majoring in Computer Science
+print(describe_person(teacher))   # Output: Teacher David teaches Mathematics
+```
+
+Python also has a more powerful pattern matching than Kotlin, you can match on the keys of a dictionary with specific values.
+
+```python
+def describe_vehicle(vehicle):
+    match vehicle:
+        case {"type": "car", "wheels": 4, "color": color}:
+            print(f"A 4-wheeled {color} car")
+        case {"type": "motorcycle", "wheels": 2, "has_sidecar": True}:
+            print("A motorcycle with a sidecar")
+        case {"type": "bicycle", "wheels": 2}:
+            print("A regular bicycle")
+        case _:
+            print("Unknown vehicle")
+
+describe_vehicle({"type": "car", "wheels": 4, "color": "red"})
+describe_vehicle({"type": "motorcycle", "wheels": 2, "has_sidecar": True})
+describe_vehicle({"type": "bicycle", "wheels": 2})
+describe_vehicle({"type": "bicycle", "wheels": 3})
+```
+
+I hope this guide has been helpful in understanding the similarities and differences between Python and Kotlin. If you have any questions or feedback, please feel free to reach out to me!
