@@ -3,10 +3,23 @@ import type { CollectionEntry } from 'astro:content';
 import FormattedDate from '../components/FormattedDate.astro';
 import Container from '../components/Container.astro';
 import Layout from './Layout.astro';
+import JsonLd from '../components/JsonLd.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, publishDate, updatedDate, heroImage } = Astro.props;
+const { title, description, publishDate, updatedDate, heroImage, language = 'en', tags = [] } = Astro.props;
+
+// Prepare data for JSON-LD
+const blogPostData = {
+	title,
+	description,
+	publishDate: publishDate.toISOString(),
+	updatedDate: updatedDate?.toISOString(),
+	heroImage,
+	language,
+	tags,
+	url: Astro.url.href
+};
 
 const headingStyles = [
 	'font-semibold',
@@ -20,31 +33,38 @@ const headingStyles = [
 ---
 
 
-<Layout title={title} description={description} image={heroImage}>
+<Layout title={title} description={description} image={heroImage} language={language}>
+	<JsonLd type="BlogPosting" data={blogPostData} />
 	<Container>
 
 
-		<main class="flex items-center justify-center py-24">
-			<article class="flex max-w-prose">
+		<main class="flex items-center justify-center py-24" role="main">
+			<article class="flex max-w-prose" itemscope itemtype="https://schema.org/BlogPosting">
 				<div>
-					<div class="title dark:text-white">
-						<div class="date">
-							<FormattedDate date={publishDate} />
+					<header class="title dark:text-white">
+						<div class="date" aria-label="Publication date">
+							<time datetime={publishDate.toISOString()} itemprop="datePublished">
+								<FormattedDate date={publishDate} />
+							</time>
 							{
 								updatedDate && (
-									<div class="last-updated-on">
-										Last updated on <FormattedDate date={updatedDate} />
+									<div class="last-updated-on" aria-label="Last updated date">
+										Last updated on <time datetime={updatedDate.toISOString()} itemprop="dateModified">
+											<FormattedDate date={updatedDate} />
+										</time>
 									</div>
 								)
 							}
 						</div>
-						<h1 class="text-4xl font-bold pb-3">{title}</h1>
-						<a href="/blog">&#8592; Back to blog</a>
+						<h1 class="text-4xl font-bold pb-3" itemprop="headline">{title}</h1>
+						<nav aria-label="Breadcrumb">
+							<a href="/blog" aria-label="Back to blog posts">&#8592; Back to blog</a>
+						</nav>
 						<hr class="h-px my-6 bg-gray-200 border-0 dark:bg-gray-700"/>
+					</header>
+					<div class="prose prose-cactus max-w-none dark:prose-invert" itemprop="articleBody">
+						<slot />
 					</div>
-					<div class="prose prose-cactus max-w-none dark:prose-invert">
-					<slot />
-				</div>
 				</div>
 			</article>
 		</main>

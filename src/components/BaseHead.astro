@@ -45,6 +45,9 @@ const imagePathUrl = image ? image : `https://og-feregri-no.vercel.app/api?${ima
 <title>{title}</title>
 <meta name="title" content={title} />
 <meta name="description" content={description} />
+<meta name="author" content="Antonio Feregrino" />
+<meta name="robots" content="index, follow" />
+<meta name="googlebot" content="index, follow" />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
@@ -59,3 +62,5 @@ const imagePathUrl = image ? image : `https://og-feregri-no.vercel.app/api?${ima
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={imagePathUrl} />
+<meta property="twitter:creator" content="@feregrino" />
+<meta property="twitter:site" content="@feregrino" />

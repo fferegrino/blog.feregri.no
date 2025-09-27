@@ -1,0 +1,91 @@
+---
+interface Props {
+	type: 'BlogPosting' | 'Person' | 'Website';
+	data: any;
+}
+
+const { type, data } = Astro.props;
+
+const generateJsonLd = () => {
+	switch (type) {
+		case 'BlogPosting':
+			return {
+				"@context": "https://schema.org",
+				"@type": "BlogPosting",
+				"headline": data.title,
+				"description": data.description,
+				"image": data.heroImage,
+				"datePublished": data.publishDate,
+				"dateModified": data.updatedDate || data.publishDate,
+				"author": {
+					"@type": "Person",
+					"name": "Antonio Feregrino",
+					"url": "https://feregri.no",
+					"sameAs": [
+						"https://github.com/fferegrino",
+						"https://www.linkedin.com/in/antonioferegrino/",
+						"https://www.youtube.com/@feregrino"
+					]
+				},
+				"publisher": {
+					"@type": "Person",
+					"name": "Antonio Feregrino",
+					"url": "https://feregri.no"
+				},
+				"mainEntityOfPage": {
+					"@type": "WebPage",
+					"@id": data.url
+				},
+				"inLanguage": data.language || "en",
+				"keywords": data.tags?.join(", ") || "",
+				"url": data.url
+			};
+		
+		case 'Person':
+			return {
+				"@context": "https://schema.org",
+				"@type": "Person",
+				"name": "Antonio Feregrino",
+				"description": data.biography,
+				"url": "https://feregri.no",
+				"sameAs": [
+					"https://github.com/fferegrino",
+					"https://www.linkedin.com/in/antonioferegrino/",
+					"https://www.youtube.com/@feregrino",
+					"https://bsky.app/profile/feregri.no"
+				],
+				"jobTitle": "MLOps Engineer",
+				"worksFor": {
+					"@type": "Organization",
+					"name": "Independent"
+				}
+			};
+		
+		case 'Website':
+			return {
+				"@context": "https://schema.org",
+				"@type": "WebSite",
+				"name": "feregri.no",
+				"description": "Antonio Feregrino's personal blog about MLOps, data science, and software development",
+				"url": "https://feregri.no",
+				"author": {
+					"@type": "Person",
+					"name": "Antonio Feregrino"
+				},
+				"inLanguage": "en",
+				"potentialAction": {
+					"@type": "SearchAction",
+					"target": "https://feregri.no/search?q={search_term_string}",
+					"query-input": "required name=search_term_string"
+				}
+			};
+		
+		default:
+			return {};
+	}
+};
+
+const jsonLd = generateJsonLd();
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>

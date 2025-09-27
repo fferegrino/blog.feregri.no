@@ -14,6 +14,7 @@ import Container from "./Container.astro";
           name="toggle_nav"
           id="toggle_nav"
           class="hidden peer"
+          aria-label="Toggle navigation menu"
         />
         <div class="relative z-20 w-full flex justify-between lg:w-max md:px-0">
           <a href="/" aria-label="logo" class="flex space-x-2 items-center">
@@ -54,7 +55,7 @@ import Container from "./Container.astro";
             <label
               role="button"
               for="toggle_nav"
-              aria-label="humburger"
+              aria-label="Toggle navigation menu"
               id="hamburger"
               class="relative p-6 -mr-6"
             >
@@ -86,6 +87,8 @@ import Container from "./Container.astro";
           >
             <ul
               class="tracking-wide font-medium lg:text-sm flex-col flex lg:flex-row gap-6 lg:gap-0"
+              role="navigation"
+              aria-label="Main navigation"
             >
               <li>
                 <a

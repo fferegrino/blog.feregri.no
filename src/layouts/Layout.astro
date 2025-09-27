@@ -2,13 +2,21 @@
 import AppFooter from "../components/AppFooter.astro";
 import AppHeader from "../components/AppHeader.astro"
 import BaseHead from "../components/BaseHead.astro";
+import JsonLd from "../components/JsonLd.astro";
+import { BIOGRAPHY } from "../consts";
 
-const { title, description, image } = Astro.props
+const { title, description, image, language = 'en' } = Astro.props
+
+// Add JSON-LD for homepage
+const isHomepage = Astro.url.pathname === '/';
+const personData = {
+	biography: BIOGRAPHY
+};
 ---
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang={language}>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
@@ -22,6 +30,7 @@ const { title, description, image } = Astro.props
 		<BaseHead title={title} description={description} image={image} />
 	</head>
 	<body class="bg-white dark:bg-gray-900">
+		{isHomepage && <JsonLd type="Person" data={personData} />}
 		<AppHeader/>
 		<slot />
 		<AppFooter/>
