@@ -41,14 +41,14 @@ const headingStyles = [
 		<main class="flex items-center justify-center py-24" role="main">
 			<article class="flex max-w-prose" itemscope itemtype="https://schema.org/BlogPosting">
 				<div>
-					<header class="title dark:text-white">
-						<div class="date" aria-label="Publication date">
+					<header class="mb-6 dark:text-white">
+						<div class="text-sm text-gray-500 dark:text-gray-400 mb-4" aria-label="Publication date">
 							<time datetime={publishDate.toISOString()} itemprop="datePublished">
 								<FormattedDate date={publishDate} />
 							</time>
 							{
 								updatedDate && (
-									<div class="last-updated-on" aria-label="Last updated date">
+									<div class="text-xs text-gray-400 dark:text-gray-500 mt-1" aria-label="Last updated date">
 										Last updated on <time datetime={updatedDate.toISOString()} itemprop="dateModified">
 											<FormattedDate date={updatedDate} />
 										</time>

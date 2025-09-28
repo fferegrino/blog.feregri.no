@@ -29,7 +29,7 @@ const personData = {
 		<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap" rel="stylesheet">
 		<BaseHead title={title} description={description} image={image} />
 	</head>
-	<body class="bg-white dark:bg-gray-900">
+	<body class="bg-white dark:bg-gray-900 font-urbanist scroll-smooth m-0">
 		{isHomepage && <JsonLd type="Person" data={personData} />}
 		<AppHeader/>
 		<slot />
@@ -39,13 +39,3 @@ const personData = {
 		<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
 	</body>
 </html>
-<style>
-	html {
-		font-family: Urbanist, sans-serif;
-		scroll-behavior: smooth;
-	}
-
-	body {
-		margin: 0;
-	}
-</style>
