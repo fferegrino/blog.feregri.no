@@ -13,6 +13,7 @@ module.exports = {
 			},
 			fontFamily: {
 				'urbanist': ['Urbanist', 'sans-serif'],
+				'atkinson': ['Atkinson', 'sans-serif'],
 			},
 		},
 	},
