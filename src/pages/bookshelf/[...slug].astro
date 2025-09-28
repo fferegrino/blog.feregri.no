@@ -1,0 +1,143 @@
+---
+import { CollectionEntry, getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import Container from "../../components/Container.astro";
+import StarRating from "../../components/StarRating.astro";
+
+export async function getStaticPaths() {
+	const books = await getCollection("bookshelf");
+	return books.map((book) => {
+		return {
+			params: { slug: book.slug },
+			props: book,
+		};
+	});
+}
+
+type Props = CollectionEntry<"bookshelf">;
+
+const book = Astro.props;
+const { title, description, author, rating, isbn, category, recommended, links } = book.data;
+
+// Prepare data for JSON-LD
+const bookData = {
+	title,
+	description,
+	author,
+	rating,
+	isbn,
+	category,
+	recommended,
+	url: Astro.url.href
+};
+---
+
+<Layout title={`${title} - Book Review`} description={description}>
+	<Container>
+		<main class="py-12 md:py-24">
+			<!-- Breadcrumb Navigation -->
+			<nav class="mb-8" aria-label="Breadcrumb">
+				<ol class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+					<li><a href="/" class="hover:text-gray-900 dark:hover:text-white">Home</a></li>
+					<li class="flex items-center">
+						<svg class="w-4 h-4 mx-2" fill="currentColor" viewBox="0 0 20 20">
+							<path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+						</svg>
+						<a href="/bookshelf" class="hover:text-gray-900 dark:hover:text-white">Bookshelf</a>
+					</li>
+					<li class="flex items-center">
+						<svg class="w-4 h-4 mx-2" fill="currentColor" viewBox="0 0 20 20">
+							<path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+						</svg>
+						<span class="text-gray-900 dark:text-white">{title}</span>
+					</li>
+				</ol>
+			</nav>
+
+			<!-- Book Detail Card -->
+			<article class="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+				<div class="p-8">
+					<div class="flex flex-col lg:flex-row gap-8">
+						<!-- Book Cover -->
+						<div class="flex-shrink-0 mx-auto lg:mx-0">
+							<div class="w-48 h-72 relative">
+								<img
+									src={`https://ik.imagekit.io/thatcsharpguy/tr:w-500,f-webp,q-80/feregri_no/book-covers/${isbn}.jpeg`}
+									alt={`Cover of ${title} by ${author}`}
+									class="w-full h-full object-contain rounded-lg shadow-md"
+								/>
+							</div>
+						</div>
+
+						<!-- Book Information -->
+						<div class="flex-grow">
+							<div class="mb-4">
+								{recommended && (
+									<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300 mb-4">
+										⭐ Recommended
+									</span>
+								)}
+								<h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-2">{title}</h1>
+								<p class="text-xl text-gray-600 dark:text-gray-400 mb-4">by {author}</p>
+								<div class="flex items-center gap-4 mb-6">
+									<StarRating rating={rating} />
+									<span class="text-lg font-medium text-gray-700 dark:text-gray-300">
+										{rating.toFixed(1)}/5.0
+									</span>
+								</div>
+							</div>
+
+							<!-- Category -->
+							<div class="mb-6">
+								<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200">
+									{category}
+								</span>
+							</div>
+
+							<!-- Description -->
+							<div class="mb-8">
+								<h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">About this book</h2>
+								<p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">{description}</p>
+							</div>
+
+							<!-- Links -->
+							{links && links.length > 0 && (
+								<div class="mb-8">
+									<h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Links</h3>
+									<div class="flex flex-wrap gap-3">
+										{links.map((link: { url: string; text: string }) => (
+											<a 
+												href={link.url} 
+												target="_blank" 
+												rel="noopener noreferrer"
+												class="inline-flex items-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors duration-200"
+											>
+												{link.text}
+												<svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+												</svg>
+											</a>
+										))}
+									</div>
+								</div>
+							)}
+
+							<!-- Back to Bookshelf -->
+							<div class="pt-6 border-t border-gray-200 dark:border-gray-700">
+								<a 
+									href="/bookshelf" 
+									class="inline-flex items-center text-primary hover:text-primary/80 font-medium transition-colors duration-200"
+								>
+									<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+									</svg>
+									Back to Bookshelf
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</article>
+		</main>
+	</Container>
+</Layout>

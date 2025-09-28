@@ -28,7 +28,9 @@ const BookReview = ({ data, slug }: Props) => {
 		"overflow-hidden",
 		"border-2 border-gray-100 dark:border-gray-700",
 		"transition-all duration-300",
-		"hover:shadow-lg dark:hover:shadow-gray-900/30"
+		"hover:shadow-lg dark:hover:shadow-gray-900/30",
+		"hover:scale-105",
+		"cursor-pointer"
 	];
 	
 	// Add recommended styling
@@ -41,11 +43,12 @@ const BookReview = ({ data, slug }: Props) => {
 	}
 		
 	return (
-		<article 
-			key={isbn} 
-			className={baseClasses.join(" ")}
-			aria-labelledby={`book-title-${isbn}`}
-		>
+		<a href={`/bookshelf/${slug}`} className="block">
+			<article 
+				key={isbn} 
+				className={baseClasses.join(" ")}
+				aria-labelledby={`book-title-${isbn}`}
+			>
 			{recommended && (
 				<div className="absolute top-2 right-2 z-10">
 					<span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300">
@@ -84,6 +87,7 @@ const BookReview = ({ data, slug }: Props) => {
               </div>
             </div>
           </article>
+		</a>
 	);
 };
 
