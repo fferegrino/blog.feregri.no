@@ -5,17 +5,16 @@ import FormattedDate from '../../components/FormattedDate.astro';
 import Layout from '../../layouts/Layout.astro';
 import Container from '../../components/Container.astro';
 
-const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
-);
+export async function getStaticPaths({ paginate }: { paginate: any }) {
+	const posts = (await getCollection('blog')).sort(
+		(a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+	);
+	
+	return paginate(posts, { pageSize: 9 });
+}
 
-// Pagination configuration
-const POSTS_PER_PAGE = 9; // 3x3 grid
-const totalPosts = posts.length;
-const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
-
-// Get first page posts
-const firstPagePosts = posts.slice(0, POSTS_PER_PAGE);
+const { page } = Astro.props;
+const posts = page.data;
 
 
 const description = 'Welcome to my personal blog. Here you can find my thoughts on various topics, including machine learning, programming, and some other stuff.'
@@ -38,7 +37,7 @@ const description = 'Welcome to my personal blog. Here you can find my thoughts 
 			<!-- Blog Grid -->
 			<section>
 				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-					{firstPagePosts.map((post: any, index: number) => {
+					{posts.map((post: any, index: number) => {
 						const isFirstPost = index === 0;
 						const postCategories = (post.data as any).categories ? [(post.data as any).categories] : [];
 						const postTags = post.data.tags || [];
@@ -105,31 +104,43 @@ const description = 'Welcome to my personal blog. Here you can find my thoughts 
 			</section>
 
 			<!-- Pagination -->
-			{totalPages > 1 && (
+			{page.lastPage > 1 && (
 				<section class="mt-12">
 					<div class="flex flex-col items-center space-y-4">
 						<!-- Pagination Info -->
 						<div class="text-sm text-gray-600 dark:text-gray-400">
-							Showing 1-{Math.min(POSTS_PER_PAGE, totalPosts)} of {totalPosts} posts
+							Showing {page.start + 1}-{page.end} of {page.total} posts
 						</div>
 						
 						<!-- Pagination Controls -->
 						<nav class="flex items-center space-x-2" aria-label="Blog pagination">
 							<!-- Previous Button -->
-							<button 
-								class="pagination-btn disabled:opacity-50 disabled:cursor-not-allowed"
-								disabled
-							>
-								<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-								</svg>
-								<span class="hidden sm:inline">Previous</span>
-							</button>
+							{page.currentPage > 1 ? (
+								<a 
+									href={page.currentPage === 2 ? '/blog/' : `/blog/${page.currentPage - 1}/`}
+									class="pagination-btn"
+								>
+									<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+									</svg>
+									<span class="hidden sm:inline">Previous</span>
+								</a>
+							) : (
+								<button 
+									class="pagination-btn disabled:opacity-50 disabled:cursor-not-allowed"
+									disabled
+								>
+									<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+									</svg>
+									<span class="hidden sm:inline">Previous</span>
+								</button>
+							)}
 							
 							<!-- Page Numbers -->
 							<div class="flex items-center space-x-1">
-								{Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => {
-									const isCurrentPage = pageNum === 1;
+								{Array.from({ length: page.lastPage }, (_, i) => i + 1).map((pageNum) => {
+									const isCurrentPage = pageNum === page.currentPage;
 									const pageUrl = pageNum === 1 ? '/blog/' : `/blog/${pageNum}/`;
 									
 									return (
@@ -144,15 +155,27 @@ const description = 'Welcome to my personal blog. Here you can find my thoughts 
 							</div>
 							
 							<!-- Next Button -->
-							<a 
-								href="/blog/2/"
-								class="pagination-btn"
-							>
-								<span class="hidden sm:inline">Next</span>
-								<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-								</svg>
-							</a>
+							{page.url.next ? (
+								<a 
+									href={page.url.next}
+									class="pagination-btn"
+								>
+									<span class="hidden sm:inline">Next</span>
+									<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+									</svg>
+								</a>
+							) : (
+								<button 
+									class="pagination-btn disabled:opacity-50 disabled:cursor-not-allowed"
+									disabled
+								>
+									<span class="hidden sm:inline">Next</span>
+									<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+									</svg>
+								</button>
+							)}
 						</nav>
 					</div>
 				</section>
