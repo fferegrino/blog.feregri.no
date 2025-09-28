@@ -35,10 +35,11 @@ const BookReview = ({ data, slug }: Props) => {
               <div className="flex space-x-4">
                 <div className="flex-shrink-0 w-20 h-36 relative">
 					<img
-						src={`https://ik.imagekit.io/thatcsharpguy/tr:w-500/feregri_no/book-covers/${isbn}.jpeg`}
+						src={`https://ik.imagekit.io/thatcsharpguy/tr:w-500,f-webp,q-80/feregri_no/book-covers/${isbn}.jpeg`}
 						alt={`Cover of ${title}`}
-						// fill
-						className="object-contain"
+						loading="lazy"
+						decoding="async"
+						className="object-contain transition-opacity duration-300"
 					/>
                 </div>
                 <div className="flex-grow min-w-0">
