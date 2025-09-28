@@ -6,8 +6,9 @@ import Container from '../../components/Container.astro';
 import ProjectEntry from '../../components/ProjectEntry';
 
 
-const highligtedProjects = projects.filter((project) => project.data.highlight);
-const notHighligtedProjects = projects.filter((project) => !project.data.highlight);
+
+
+const sortedProjects = projects.sort((a, b) => b.data.priority - a.data.priority);
 
 const fullText = "These are some of the projects I've worked on, most of them inspired by my career as a content creator. Some of these projects are still in active development and are open-source.";
 const description = "Here are some of the projects I've worked on, most of them inspired by my career as a content creator. Some of them are still in active development"; 
@@ -21,8 +22,7 @@ const description = "Here are some of the projects I've worked on, most of them 
 			</p>
 			<section>
 				<div class="flex flex-wrap">
-					{highligtedProjects.map((post) =>  (<ProjectEntry post={post} />))}
-					{notHighligtedProjects.map((post) =>  (<ProjectEntry post={post} />))}
+					{sortedProjects.map((post) =>  (<ProjectEntry post={post} />))}
 				</div>
 			</section>
 		</main>
