@@ -33,8 +33,21 @@ const personData = {
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap" rel="stylesheet">
 		
-		<!-- Font loading optimization script -->
+		<!-- Theme and font loading optimization script -->
 		<script>
+			// Prevent flash of unstyled content by applying theme immediately
+			(function() {
+				const savedTheme = localStorage.getItem('theme') || 'system';
+				const html = document.documentElement;
+				
+				if (savedTheme === 'system') {
+					const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+					html.classList.add(prefersDark ? 'dark' : 'light');
+				} else {
+					html.classList.add(savedTheme);
+				}
+			})();
+			
 			// Optimize font loading with fallbacks
 			if ('fonts' in document) {
 				document.fonts.ready.then(() => {

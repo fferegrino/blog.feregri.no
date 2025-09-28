@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Theme transition styles */
+html {
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+/* Ensure smooth transitions for all theme-related properties */
+* {
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+/* Theme toggle specific styles */
+.theme-toggle button {
+  position: relative;
+  overflow: hidden;
+}
+
+.theme-toggle button:hover {
+  transform: scale(1.05);
+}
+
+.theme-toggle button:active {
+  transform: scale(0.95);
+}
+
+/* Icon transitions */
+.theme-icon {
+  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.theme-icon:hover {
+  transform: rotate(20deg);
+}
+
+/* Prevent flash of unstyled content */
+html:not(.light):not(.dark) {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+/* Enhanced focus styles for accessibility */
+.theme-toggle button:focus-visible {
+  outline: 2px solid theme('colors.primary');
+  outline-offset: 2px;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar for dark mode */
+.dark ::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: theme('colors.gray.800');
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: theme('colors.gray.600');
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: theme('colors.gray.500');
+}
+
+/* Light mode scrollbar */
+.light ::-webkit-scrollbar {
+  width: 8px;
+}
+
+.light ::-webkit-scrollbar-track {
+  background: theme('colors.gray.100');
+}
+
+.light ::-webkit-scrollbar-thumb {
+  background: theme('colors.gray.300');
+  border-radius: 4px;
+}
+
+.light ::-webkit-scrollbar-thumb:hover {
+  background: theme('colors.gray.400');
+}
