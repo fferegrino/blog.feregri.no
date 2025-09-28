@@ -26,8 +26,8 @@ const projects = (await getCollection('project')).map((project)=> {
 			iconUrl
 		}
 	}
-}).sort((a, b) => {
-	return a.data.title.toLowerCase() > b.data.title.toLowerCase() ? 1 : -1;
-})
+});
+
+// Note: Sorting is now handled by the Features component via sortFunction prop
 
 export default projects;

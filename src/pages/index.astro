@@ -23,9 +23,17 @@ const posts = (await getCollection('blog')).map((post) => {
 			url:slug,
 		},
 	}
-}).sort(
-	(a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
-);
+});
+
+// Define sorting function for blog posts
+const blogSortFunction = (a: any, b: any) => {
+	// First sort by priority (higher priority first)
+	const priorityDiff = b.data.priority - a.data.priority;
+	if (priorityDiff !== 0) return priorityDiff;
+	
+	// If priorities are equal, sort by publish date (newer first)
+	return b.data.publishDate.valueOf() - a.data.publishDate.valueOf();
+};
 
 
 const bookshelf = (await getCollection('bookshelf')).map((book) => {
@@ -51,19 +59,36 @@ const trimmedDescription = bookshelf.map((book) => {
 			description: trimmedDescription,
 		},
 	};
+});
+
+// Define sorting function for books
+const bookshelfSortFunction = (a: any, b: any) => {
+	// First sort by priority (higher priority first)
+	const priorityDiff = b.data.priority - a.data.priority;
+	if (priorityDiff !== 0) return priorityDiff;
 	
-}).sort((a, b) => {
+	// If priorities are equal, sort by rating (higher rating first)
 	return b.data.rating - a.data.rating;
-})
+};
+
+// Define sorting function for projects
+const projectsSortFunction = (a: any, b: any) => {
+	// First sort by priority (higher priority first)
+	const priorityDiff = b.data.priority - a.data.priority;
+	if (priorityDiff !== 0) return priorityDiff;
+	
+	// If priorities are equal, sort by title alphabetically
+	return a.data.title.toLowerCase() > b.data.title.toLowerCase() ? 1 : -1;
+};
 ---
 
 <Layout title="Antonio Feregrino" description={BIOGRAPHY} language="en">
 	<main class="space-y-10 mb-40">
 		<HeroSection/>
-		<Features anchor="blog" title="Blog" description="Here is some stuff I've written" collection={posts} />
+		<Features anchor="projects" title="Projects" description="Some of the projects I have created or worked on" collection={projects} sortFunction={projectsSortFunction} />
+		<Features anchor="blog" title="Blog" description="Here is some stuff I've written" collection={posts} sortFunction={blogSortFunction} />
+		<Features anchor="bookshelf" title="Book recommendations" description="Lately I have been reading a lot, so here are my recommendations" collection={trimmedDescription} sortFunction={bookshelfSortFunction} />
 		<Videos anchor="videos" title="Videos" description="Here are some videos I've made" collection={videos} />
-		<Features anchor="projects" title="Projects" description="Some of the projects I have created or worked on" collection={projects} />
-		<Features anchor="bookshelf" title="Book recommendations" description="Lately I have been reading a lot, so here are my recommendations" collection={trimmedDescription} />
 
 	</main>
 

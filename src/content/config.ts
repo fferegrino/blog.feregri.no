@@ -19,6 +19,7 @@ const blog = defineCollection({
 		tags: z.array(z.string()).optional(),
 		original_url: z.string().optional(),
 		youtube: z.string().optional(),
+		priority: z.number().optional().default(0),
 	}),
 });
 
@@ -33,6 +34,7 @@ const project = defineCollection({
 		active: z.boolean().optional().default(false),
 		highlight: z.boolean().optional().default(false),
 		heroImage: z.string().optional(),
+		priority: z.number().optional().default(0),
 	}),
 });
 
@@ -46,6 +48,7 @@ const bookshelf = defineCollection({
 		isbn: z.string().optional(),
 		links: z.array(z.object({ url: z.string(), text: z.string() })).optional(),
 		recommended: z.boolean().optional().default(false),
+		priority: z.number().optional().default(0),
 	}),
 });
 
