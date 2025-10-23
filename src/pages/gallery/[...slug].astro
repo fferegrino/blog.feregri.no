@@ -57,13 +57,14 @@ const defaultTransform = gallery.data.defaultTransform || 'tr:w-0.3';
 				{gallery.data.images.map((image: { url: string, caption: string, alt: string, customTransform: string }, index: number) => {  
                     
                     const transform = image.customTransform || defaultTransform;
-					return (<div class="break-inside-avoid mb-6 group cursor-pointer" data-index={index}>
-						<div class="relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
+					return (<div class="break-inside-avoid mb-6 group" data-index={index}>
+						<div class="relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer">
 							<img 
 								src={gallery.data.collection + '/' + transform + '/' + image.url } 
 								alt={image.alt || image.caption || `Image ${index + 1}`}
-								class="w-full h-auto group-hover:scale-105 transition-transform duration-300"
+								class="w-full h-auto group-hover:scale-105 transition-transform duration-300 cursor-pointer"
 								loading="lazy"
+								data-index={index}
 							/>
 							{image.caption && (
 								<div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-all duration-300 flex items-end">
@@ -125,11 +126,11 @@ const defaultTransform = gallery.data.defaultTransform || 'tr:w-0.3';
 	</main>
 </Layout>
 
-<script>
+<script define:vars={{ galleryData: gallery.data }}>
 	// Lightbox functionality
 	document.addEventListener('DOMContentLoaded', function() {
 		const modal = document.getElementById('lightbox-modal');
-		const lightboxImage = document.getElementById('lightbox-image') as HTMLImageElement;
+		const lightboxImage = document.getElementById('lightbox-image');
 		const lightboxCaption = document.getElementById('lightbox-caption');
 		const lightboxCaptionText = document.getElementById('lightbox-caption-text');
 		const closeBtn = document.getElementById('close-lightbox');
@@ -140,15 +141,25 @@ const defaultTransform = gallery.data.defaultTransform || 'tr:w-0.3';
 			return;
 		}
 		
-		const images = Array.from(document.querySelectorAll('#masonry-gallery img')) as HTMLImageElement[];
+		const images = Array.from(document.querySelectorAll('#masonry-gallery img'));
 		let currentIndex = 0;
 
+		// Get original image data from the gallery
+		const galleryImages = galleryData.images.map((image) => ({
+			url: image.url,
+			caption: image.caption,
+			alt: image.alt
+		}));
+
 		// Open lightbox
-		function openLightbox(index: number) {
+		function openLightbox(index) {
 			currentIndex = index;
 			const img = images[currentIndex];
-			lightboxImage.src = img.src;
-			lightboxImage.alt = img.alt;
+			const originalImage = galleryImages[currentIndex];
+			
+			// Use the original image URL for lightbox (full quality)
+			lightboxImage.src = galleryData.collection + '/' + originalImage.url;
+			lightboxImage.alt = originalImage.alt || originalImage.caption || `Image ${index + 1}`;
 			
 			const caption = img.closest('[data-index]')?.querySelector('p');
 			if (caption) {
@@ -171,14 +182,17 @@ const defaultTransform = gallery.data.defaultTransform || 'tr:w-0.3';
 		}
 
 		// Navigate images
-		function showImage(index: number) {
+		function showImage(index) {
 			if (index < 0) index = images.length - 1;
 			if (index >= images.length) index = 0;
 			
 			currentIndex = index;
 			const img = images[currentIndex];
-			lightboxImage.src = img.src;
-			lightboxImage.alt = img.alt;
+			const originalImage = galleryImages[currentIndex];
+			
+			// Use the original image URL for lightbox (full quality)
+			lightboxImage.src = galleryData.collection + '/' + originalImage.url;
+			lightboxImage.alt = originalImage.alt || originalImage.caption || `Image ${index + 1}`;
 			
 			const caption = img.closest('[data-index]')?.querySelector('p');
 			if (caption) {
@@ -191,7 +205,21 @@ const defaultTransform = gallery.data.defaultTransform || 'tr:w-0.3';
 
 		// Event listeners
 		images.forEach((img, index) => {
-			img.addEventListener('click', () => openLightbox(index));
+			img.addEventListener('click', (e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				openLightbox(index);
+			});
+		});
+
+		// Also add click listeners to the container divs
+		const imageContainers = Array.from(document.querySelectorAll('#masonry-gallery div[data-index]'));
+		imageContainers.forEach((container, index) => {
+			container.addEventListener('click', (e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				openLightbox(index);
+			});
 		});
 
 		closeBtn.addEventListener('click', closeLightbox);
