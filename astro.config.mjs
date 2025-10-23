@@ -8,7 +8,7 @@ import react from "@astrojs/react";
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://feregri.no',
+  site: 'https://blog.feregri.no',
   integrations: [mdx(), sitemap(), tailwind(), react()],
     // remarkPlugins: [remarkEmbedder]
 });

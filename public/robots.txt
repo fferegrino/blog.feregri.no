@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://feregri.no/sitemap-index.xml
+Sitemap: https://blog.feregri.no/sitemap-index.xml
 
 # Disallow admin or private areas (if any exist in the future)
 Disallow: /admin/
