@@ -13,6 +13,7 @@ export async function getStaticPaths() {
 
 const { gallery }: { gallery: any } = Astro.props;
 const defaultTransform = gallery.data.defaultTransform || 'tr:w-0.3';
+const lightboxTransform =  'tr:w-0.5';
 ---
 
 <Layout title={gallery.data.title} description={gallery.data.description} language="en">
@@ -126,7 +127,7 @@ const defaultTransform = gallery.data.defaultTransform || 'tr:w-0.3';
 	</main>
 </Layout>
 
-<script define:vars={{ galleryData: gallery.data }}>
+<script define:vars={{ galleryData: gallery.data, lightboxTransform: lightboxTransform }}>
 	// Lightbox functionality
 	document.addEventListener('DOMContentLoaded', function() {
 		const modal = document.getElementById('lightbox-modal');
@@ -158,7 +159,7 @@ const defaultTransform = gallery.data.defaultTransform || 'tr:w-0.3';
 			const originalImage = galleryImages[currentIndex];
 			
 			// Use the original image URL for lightbox (full quality)
-			lightboxImage.src = galleryData.collection + '/' + originalImage.url;
+			lightboxImage.src = galleryData.collection + '/' + lightboxTransform + '/' + originalImage.url;
 			lightboxImage.alt = originalImage.alt || originalImage.caption || `Image ${index + 1}`;
 			
 			const caption = img.closest('[data-index]')?.querySelector('p');
@@ -191,7 +192,7 @@ const defaultTransform = gallery.data.defaultTransform || 'tr:w-0.3';
 			const originalImage = galleryImages[currentIndex];
 			
 			// Use the original image URL for lightbox (full quality)
-			lightboxImage.src = galleryData.collection + '/' + originalImage.url;
+			lightboxImage.src = galleryData.collection + '/' + lightboxTransform + '/' + originalImage.url;
 			lightboxImage.alt = originalImage.alt || originalImage.caption || `Image ${index + 1}`;
 			
 			const caption = img.closest('[data-index]')?.querySelector('p');
