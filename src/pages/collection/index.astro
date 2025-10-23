@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Container from '../../components/Container.astro';
 import { getCollection } from 'astro:content';
 
-const galleries = await getCollection('gallery');
+const galleries = await getCollection('collection');
 
 // Sort galleries by priority, then by date
 const sortedGalleries = galleries.sort((a: any, b: any) => {
@@ -35,7 +35,7 @@ const sortedGalleries = galleries.sort((a: any, b: any) => {
 			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 				{sortedGalleries.map((gallery: any) => (
 					<a 
-						href={`/gallery/${gallery.slug}`}
+						href={`/collection/${gallery.slug}`}
 						class="group block bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
 					>
 						<div class="relative overflow-hidden">

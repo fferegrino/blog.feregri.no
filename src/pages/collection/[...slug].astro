@@ -4,7 +4,7 @@ import Container from '../../components/Container.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
-	const galleries = await getCollection('gallery');
+	const galleries = await getCollection('collection');
 	return galleries.map((gallery) => ({
 		params: { slug: gallery.slug },
 		props: { gallery },
@@ -12,8 +12,28 @@ export async function getStaticPaths() {
 }
 
 const { gallery }: { gallery: any } = Astro.props;
-const defaultTransform = gallery.data.defaultTransform || 'tr:w-0.3';
-const lightboxTransform =  'tr:w-0.5';
+
+const lightboxTransform =  ['w-0.5'];
+const defaultGalleryTransforms = ['w-800'];
+const socialTransforms = [
+    "w-1200",
+    "h-630",
+    "bl-10",
+    "e-gradient-ld-top_from-black_to-00000010_sp-1"
+];
+
+function getFinalUrl(url: string, transformations: string[]) {
+    const urlParts = url.split('?');
+    const urlWithoutQueryString = urlParts[0];
+    let finalUrl = urlWithoutQueryString;
+    if (urlParts.length > 1) {
+        const queryString = urlParts[1];
+        const queryParams = new URLSearchParams(queryString);
+        const updatedAt = queryParams.get('updatedAt');
+        finalUrl = `${urlWithoutQueryString}?updatedAt=${updatedAt}&tr=${transformations.join(',')}`;
+    }
+    return finalUrl;
+}
 ---
 
 <Layout title={gallery.data.title} description={gallery.data.description} language="en">
@@ -57,11 +77,14 @@ const lightboxTransform =  'tr:w-0.5';
 			<div id="masonry-gallery" class="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-6">
 				{gallery.data.images.map((image: { url: string, caption: string, alt: string, customTransform: string }, index: number) => {  
                     
-                    const transform = image.customTransform || defaultTransform;
+                    const urlParts = image.url.split('?');
+                    const urlWithoutQueryString = urlParts[0];
+                    const finalUrl = getFinalUrl(image.url, defaultGalleryTransforms);
+                    
 					return (<div class="break-inside-avoid mb-6 group" data-index={index}>
 						<div class="relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer">
 							<img 
-								src={gallery.data.collection + '/' + transform + '/' + image.url } 
+								src={finalUrl} 
 								alt={image.alt || image.caption || `Image ${index + 1}`}
 								class="w-full h-auto group-hover:scale-105 transition-transform duration-300 cursor-pointer"
 								loading="lazy"
@@ -127,8 +150,22 @@ const lightboxTransform =  'tr:w-0.5';
 	</main>
 </Layout>
 
-<script define:vars={{ galleryData: gallery.data, lightboxTransform: lightboxTransform }}>
-	// Lightbox functionality
+<script define:vars={{ galleryData: gallery.data, lightboxTransform: lightboxTransform}}>
+	
+    function innerGetFinalUrl(url, transformations) {
+        const urlParts = url.split('?');
+        const urlWithoutQueryString = urlParts[0];
+        let finalUrl = urlWithoutQueryString;
+        if (urlParts.length > 1) {
+            const queryString = urlParts[1];
+            const queryParams = new URLSearchParams(queryString);
+            const updatedAt = queryParams.get('updatedAt');
+            finalUrl = `${urlWithoutQueryString}?updatedAt=${updatedAt}&tr=${transformations.join(',')}`;
+        }
+        return finalUrl;
+    }
+
+    // Lightbox functionality
 	document.addEventListener('DOMContentLoaded', function() {
 		const modal = document.getElementById('lightbox-modal');
 		const lightboxImage = document.getElementById('lightbox-image');
@@ -159,7 +196,7 @@ const lightboxTransform =  'tr:w-0.5';
 			const originalImage = galleryImages[currentIndex];
 			
 			// Use the original image URL for lightbox (full quality)
-			lightboxImage.src = galleryData.collection + '/' + lightboxTransform + '/' + originalImage.url;
+			lightboxImage.src = innerGetFinalUrl(originalImage.url, lightboxTransform);
 			lightboxImage.alt = originalImage.alt || originalImage.caption || `Image ${index + 1}`;
 			
 			const caption = img.closest('[data-index]')?.querySelector('p');
@@ -190,9 +227,9 @@ const lightboxTransform =  'tr:w-0.5';
 			currentIndex = index;
 			const img = images[currentIndex];
 			const originalImage = galleryImages[currentIndex];
-			
+            const finalUrl = innerGetFinalUrl(originalImage.url, lightboxTransform);
 			// Use the original image URL for lightbox (full quality)
-			lightboxImage.src = galleryData.collection + '/' + lightboxTransform + '/' + originalImage.url;
+			lightboxImage.src = finalUrl;
 			lightboxImage.alt = originalImage.alt || originalImage.caption || `Image ${index + 1}`;
 			
 			const caption = img.closest('[data-index]')?.querySelector('p');

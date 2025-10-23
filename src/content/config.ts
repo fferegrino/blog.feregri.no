@@ -52,14 +52,13 @@ const bookshelf = defineCollection({
 	}),
 });
 
-const gallery = defineCollection({
+const collection = defineCollection({
 	schema: z.object({
 		title: z.string(),
 		description: z.string(),
 		thumbnail: z.string(),
 		images: z.array(z.object({
 			url: z.string(),
-			customTransform: z.string().optional(),
 			caption: z.string().optional(),
 			alt: z.string().optional(),
 		})),
@@ -69,10 +68,8 @@ const gallery = defineCollection({
 			.or(z.date())
 			.transform((val) => new Date(val))
 			.optional(),
-		collection: z.string().optional(),
-		defaultTransform: z.string().optional(),
 		priority: z.number().optional().default(0),
 	}),
 });
 
-export const collections = { blog, project, bookshelf, gallery };
+export const collections = { blog, project, bookshelf, collection };
