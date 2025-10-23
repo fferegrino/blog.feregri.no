@@ -20,7 +20,11 @@ const sortedGalleries = galleries.sort((a: any, b: any) => {
 });
 ---
 
-<Layout title="Photo Gallery" description="A collection of my photography work" language="en">
+<Layout 
+	title="Photo Gallery - Photography Collections | feregri.no" 
+	description="Explore my photography collections showcasing moments and places that have captured my attention. High-quality photo galleries with detailed captions and professional photography."
+	language="en"
+>
 	<main class="pt-20 pb-20">
 		<Container containerWidth="max-w-6xl">
 			<div class="text-center mb-16">
@@ -81,6 +85,47 @@ const sortedGalleries = galleries.sort((a: any, b: any) => {
 		</Container>
 	</main>
 </Layout>
+
+<!-- JSON-LD Structured Data for Gallery Index -->
+<script type="application/ld+json" set:html={JSON.stringify({
+	"@context": "https://schema.org",
+	"@type": "CollectionPage",
+	"name": "Photo Gallery",
+	"description": "Explore my photography collections showcasing moments and places that have captured my attention. High-quality photo galleries with detailed captions and professional photography.",
+	"url": "https://feregri.no/collection",
+	"mainEntity": {
+		"@type": "ItemList",
+		"name": "Photography Collections",
+		"description": "A curated collection of photography galleries",
+		"numberOfItems": sortedGalleries.length,
+		"itemListElement": sortedGalleries.map((gallery, index) => ({
+			"@type": "ListItem",
+			"position": index + 1,
+			"item": {
+				"@type": "ImageGallery",
+				"name": gallery.data.title,
+				"description": gallery.data.description,
+				"url": `https://feregri.no/collection/${gallery.slug}`,
+				"image": gallery.data.thumbnail,
+				"datePublished": gallery.data.date?.toISOString(),
+				"author": {
+					"@type": "Person",
+					"name": "Antonio Feregrino"
+				}
+			}
+		}))
+	},
+	"author": {
+		"@type": "Person",
+		"name": "Antonio Feregrino",
+		"url": "https://feregri.no"
+	},
+	"publisher": {
+		"@type": "Organization",
+		"name": "feregri.no",
+		"url": "https://feregri.no"
+	}
+})} />
 
 <style>
 	.line-clamp-2 {
