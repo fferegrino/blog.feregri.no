@@ -1,0 +1,223 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Container from '../../components/Container.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+	const galleries = await getCollection('gallery');
+	return galleries.map((gallery) => ({
+		params: { slug: gallery.slug },
+		props: { gallery },
+	}));
+}
+
+const { gallery }: { gallery: any } = Astro.props;
+const defaultTransform = gallery.data.defaultTransform || 'tr:w-0.3';
+---
+
+<Layout title={gallery.data.title} description={gallery.data.description} language="en">
+	<main class="pt-20 pb-20">
+		<Container containerWidth="max-w-7xl">
+			<!-- Back button -->
+			<div class="mb-8">
+				<a 
+					href="/gallery" 
+					class="inline-flex items-center text-primary hover:text-primary-dark transition-colors"
+				>
+					<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+					</svg>
+					Back to Gallery
+				</a>
+			</div>
+
+			<!-- Gallery header -->
+			<div class="text-center mb-12">
+				<h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+					{gallery.data.title}
+				</h1>
+				<p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-6">
+					{gallery.data.description}
+				</p>
+				<div class="flex items-center justify-center gap-4 text-sm text-gray-500 dark:text-gray-400">
+					<span>{gallery.data.images.length} {gallery.data.images.length === 1 ? 'photo' : 'photos'}</span>
+					{gallery.data.category && (
+						<span class="bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
+							{gallery.data.category}
+						</span>
+					)}
+					{gallery.data.date && (
+						<span>{gallery.data.date.toLocaleDateString()}</span>
+					)}
+				</div>
+			</div>
+
+			<!-- Masonry Gallery -->
+			<div id="masonry-gallery" class="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-6">
+				{gallery.data.images.map((image: { url: string, caption: string, alt: string, customTransform: string }, index: number) => {  
+                    
+                    const transform = image.customTransform || defaultTransform;
+					return (<div class="break-inside-avoid mb-6 group cursor-pointer" data-index={index}>
+						<div class="relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
+							<img 
+								src={gallery.data.collection + '/' + transform + '/' + image.url } 
+								alt={image.alt || image.caption || `Image ${index + 1}`}
+								class="w-full h-auto group-hover:scale-105 transition-transform duration-300"
+								loading="lazy"
+							/>
+							{image.caption && (
+								<div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-all duration-300 flex items-end">
+									<p class="text-white p-4 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+										{image.caption}
+									</p>
+								</div>
+							)}
+						</div>
+					</div>)}
+				)}
+			</div>
+
+			<!-- Lightbox Modal -->
+			<div id="lightbox-modal" class="fixed inset-0 bg-black bg-opacity-90 z-50 hidden items-center justify-center p-4">
+				<div class="relative max-w-7xl max-h-full">
+					<button 
+						id="close-lightbox" 
+						class="absolute top-4 right-4 text-white hover:text-gray-300 z-10"
+						aria-label="Close lightbox"
+					>
+						<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+						</svg>
+					</button>
+					
+					<button 
+						id="prev-image" 
+						class="absolute left-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 z-10"
+						aria-label="Previous image"
+					>
+						<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+						</svg>
+					</button>
+					
+					<button 
+						id="next-image" 
+						class="absolute right-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 z-10"
+						aria-label="Next image"
+					>
+						<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+						</svg>
+					</button>
+
+					<img 
+						id="lightbox-image" 
+						class="max-w-full max-h-full object-contain"
+						alt=""
+					/>
+					
+					<div id="lightbox-caption" class="absolute bottom-4 left-4 right-4 text-white text-center text-sm opacity-0 transition-opacity duration-300">
+						<p id="lightbox-caption-text"></p>
+					</div>
+				</div>
+			</div>
+		</Container>
+	</main>
+</Layout>
+
+<script>
+	// Lightbox functionality
+	document.addEventListener('DOMContentLoaded', function() {
+		const modal = document.getElementById('lightbox-modal');
+		const lightboxImage = document.getElementById('lightbox-image') as HTMLImageElement;
+		const lightboxCaption = document.getElementById('lightbox-caption');
+		const lightboxCaptionText = document.getElementById('lightbox-caption-text');
+		const closeBtn = document.getElementById('close-lightbox');
+		const prevBtn = document.getElementById('prev-image');
+		const nextBtn = document.getElementById('next-image');
+		
+		if (!modal || !lightboxImage || !lightboxCaption || !lightboxCaptionText || !closeBtn || !prevBtn || !nextBtn) {
+			return;
+		}
+		
+		const images = Array.from(document.querySelectorAll('#masonry-gallery img')) as HTMLImageElement[];
+		let currentIndex = 0;
+
+		// Open lightbox
+		function openLightbox(index: number) {
+			currentIndex = index;
+			const img = images[currentIndex];
+			lightboxImage.src = img.src;
+			lightboxImage.alt = img.alt;
+			
+			const caption = img.closest('[data-index]')?.querySelector('p');
+			if (caption) {
+				lightboxCaptionText.textContent = caption.textContent;
+				lightboxCaption.style.opacity = '1';
+			} else {
+				lightboxCaption.style.opacity = '0';
+			}
+			
+			modal.classList.remove('hidden');
+			modal.classList.add('flex');
+			document.body.style.overflow = 'hidden';
+		}
+
+		// Close lightbox
+		function closeLightbox() {
+			modal.classList.add('hidden');
+			modal.classList.remove('flex');
+			document.body.style.overflow = 'auto';
+		}
+
+		// Navigate images
+		function showImage(index: number) {
+			if (index < 0) index = images.length - 1;
+			if (index >= images.length) index = 0;
+			
+			currentIndex = index;
+			const img = images[currentIndex];
+			lightboxImage.src = img.src;
+			lightboxImage.alt = img.alt;
+			
+			const caption = img.closest('[data-index]')?.querySelector('p');
+			if (caption) {
+				lightboxCaptionText.textContent = caption.textContent;
+				lightboxCaption.style.opacity = '1';
+			} else {
+				lightboxCaption.style.opacity = '0';
+			}
+		}
+
+		// Event listeners
+		images.forEach((img, index) => {
+			img.addEventListener('click', () => openLightbox(index));
+		});
+
+		closeBtn.addEventListener('click', closeLightbox);
+		prevBtn.addEventListener('click', () => showImage(currentIndex - 1));
+		nextBtn.addEventListener('click', () => showImage(currentIndex + 1));
+
+		// Close on backdrop click
+		modal.addEventListener('click', (e) => {
+			if (e.target === modal) closeLightbox();
+		});
+
+		// Keyboard navigation
+		document.addEventListener('keydown', (e) => {
+			if (modal.classList.contains('hidden')) return;
+			
+			switch(e.key) {
+				case 'Escape':
+					closeLightbox();
+					break;
+				case 'ArrowLeft':
+					showImage(currentIndex - 1);
+					break;
+				case 'ArrowRight':
+					showImage(currentIndex + 1);
+					break;
+			}
+		});
+	});
+</script>

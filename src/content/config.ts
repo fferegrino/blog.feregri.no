@@ -52,4 +52,27 @@ const bookshelf = defineCollection({
 	}),
 });
 
-export const collections = { blog, project, bookshelf };
+const gallery = defineCollection({
+	schema: z.object({
+		title: z.string(),
+		description: z.string(),
+		thumbnail: z.string(),
+		images: z.array(z.object({
+			url: z.string(),
+			customTransform: z.string().optional(),
+			caption: z.string().optional(),
+			alt: z.string().optional(),
+		})),
+		category: z.string().optional(),
+		date: z
+			.string()
+			.or(z.date())
+			.transform((val) => new Date(val))
+			.optional(),
+		collection: z.string().optional(),
+		defaultTransform: z.string().optional(),
+		priority: z.number().optional().default(0),
+	}),
+});
+
+export const collections = { blog, project, bookshelf, gallery };
