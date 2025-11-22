@@ -18,11 +18,13 @@ const sortedGalleries = galleries.sort((a: any, b: any) => {
 	// If no dates, maintain original order
 	return 0;
 });
+
+const description = "Some photos of things I collect, from football shirts, to enamel pins, and all other random stuff in between.";
 ---
 
 <Layout 
 	title="Photo Gallery - Photography Collections | feregri.no" 
-	description="Explore my photography collections showcasing moments and places that have captured my attention. High-quality photo galleries with detailed captions and professional photography."
+	description="Some photos of things I collect, from football shirts, to enamel pins, and all other random stuff in between."
 	language="en"
 >
 	<main class="pt-20 pb-20">
@@ -32,7 +34,7 @@ const sortedGalleries = galleries.sort((a: any, b: any) => {
 					Photo Gallery
 				</h1>
 				<p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-					A collection of my photography work, showcasing moments and places that have captured my attention.
+					{description}
 				</p>
 			</div>
 
