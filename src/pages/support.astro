@@ -1,0 +1,87 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Container from '../components/Container.astro';
+---
+
+<Layout
+	title="App Support"
+	description="Get help with iOS apps developed by Antonio Feregrino. FAQs, contact, and troubleshooting for apps on the App Store."
+>
+	<Container>
+		<main class="py-16 md:py-24" role="main">
+			<article class="max-w-prose mx-auto">
+				<header class="mb-10">
+					<nav aria-label="Breadcrumb" class="text-sm text-gray-500 dark:text-gray-400 mb-4">
+						<a href="/" class="hover:text-primary transition">Home</a>
+						<span class="mx-2">/</span>
+						<span class="text-gray-700 dark:text-gray-300">App Support</span>
+					</nav>
+					<h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+						App Support
+					</h1>
+					<p class="text-lg text-gray-600 dark:text-gray-300">
+						Need help with one of my iOS apps? Here you can find answers to common questions and how to get in touch.
+					</p>
+				</header>
+
+				<div class="prose prose-cactus max-w-none dark:prose-invert">
+					<section class="mb-10">
+						<h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+							Contact support
+						</h2>
+						<p>
+							If you're experiencing an issue, have a feature request, or want to send feedback about any of my apps, please reach out:
+						</p>
+						<p class="mt-4">
+							<a
+								href="mailto:support@feregri.no"
+								class="text-primary hover:underline font-medium"
+							>
+								support@feregri.no
+							</a>
+						</p>
+						<p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+							I aim to respond within a few days. When contacting support, please include the app name and your device model (e.g. iPhone 15, iPad Pro) so I can help you faster.
+						</p>
+					</section>
+
+					<section class="mb-10">
+						<h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+							Frequently asked questions
+						</h2>
+
+						<h3 class="text-lg font-medium text-gray-900 dark:text-white mt-6 mb-2">
+							How do I report a bug?
+						</h3>
+						<p>
+							Send an email to <a href="mailto:support@feregri.no" class="text-primary hover:underline">support@feregri.no</a> with a short description of what happened, what you expected, and (if possible) steps to reproduce. Screenshots or screen recordings are very helpful.
+						</p>
+
+						<h3 class="text-lg font-medium text-gray-900 dark:text-white mt-6 mb-2">
+							Can I request a new feature?
+						</h3>
+						<p>
+							Yes. I welcome suggestions. Send your idea to <a href="mailto:support@feregri.no" class="text-primary hover:underline">support@feregri.no</a>. I can't promise every request will be implemented, but I read and consider all of them.
+						</p>
+
+						<h3 class="text-lg font-medium text-gray-900 dark:text-white mt-6 mb-2">
+							Where can I find my apps?
+						</h3>
+						<p>
+							My iOS apps are available on the <a href="https://apps.apple.com/developer/antonio-feregrino/id1234567890" class="text-primary hover:underline" target="_blank" rel="noopener noreferrer">App Store</a>. You can also see some of my projects on the <a href="/projects" class="text-primary hover:underline">Projects</a> page.
+						</p>
+					</section>
+
+					<section>
+						<h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+							Privacy &amp; data
+						</h2>
+						<p>
+							I care about your privacy. My apps are designed to respect your data. If you have questions about what data an app collects or how it's used, please check the app's privacy policy in the App Store listing or contact me at <a href="mailto:support@feregri.no" class="text-primary hover:underline">support@feregri.no</a>.
+						</p>
+					</section>
+				</div>
+			</article>
+		</main>
+	</Container>
+</Layout>
