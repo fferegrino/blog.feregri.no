@@ -15,7 +15,7 @@ This gallery system allows you to showcase your photography with a beautiful mas
 
 ### 1. Create a Gallery Collection
 
-Create a new `.mdx` file in `src/content/gallery/` with the following structure:
+Create a new `.mdx` file in `src/content/collection/` with the following structure:
 
 ```mdx
 ---
@@ -57,7 +57,7 @@ images:
 
 ## Navigation
 
-The gallery is automatically added to your site navigation. You can access it at `/gallery`.
+The gallery is in site navigation as Collections. You can access it at `/collection`.
 
 ## Styling
 
@@ -69,11 +69,7 @@ The gallery uses Tailwind CSS classes and follows your site's design system:
 
 ## Example Collections
 
-Two sample collections are included to demonstrate the functionality:
-- `sample-collection.mdx` - Nature photography
-- `urban-photography.mdx` - Urban photography
-
-You can delete these and replace them with your own collections.
+Collections live in `src/content/collection/` (for example football shirts). Host images on ImageKit so gallery pages can append `tr=` transforms.
 
 ## Technical Details
 

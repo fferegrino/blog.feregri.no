@@ -1,9 +1,10 @@
 // Place any global data in this file.
 // You can import this data from anywhere in your site by using the `import` keyword.
 
-export const SITE_TITLE = 'Astro Blog';
-export const SITE_DESCRIPTION = 'Welcome to my website!';
+export const SITE_TITLE = 'feregri.no';
+export const SITE_CANONICAL = 'https://blog.feregri.no';
 export const BIOGRAPHY = 'MLOps engineer, once a data scientist but always a software developer – Edutuber – Interested in the future of work, education, and technology. I love to learn and teach.'
+export const SITE_DESCRIPTION = BIOGRAPHY;
 
 
 export type SocialNetwork = {

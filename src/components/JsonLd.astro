@@ -1,4 +1,6 @@
 ---
+import { SITE_CANONICAL } from '../consts';
+
 interface Props {
 	type: 'BlogPosting' | 'Person' | 'Website';
 	data: any;
@@ -20,7 +22,7 @@ const generateJsonLd = () => {
 				"author": {
 					"@type": "Person",
 					"name": "Antonio Feregrino",
-					"url": "https://feregri.no",
+					"url": SITE_CANONICAL,
 					"sameAs": [
 						"https://github.com/fferegrino",
 						"https://www.linkedin.com/in/antonioferegrino/",
@@ -30,7 +32,7 @@ const generateJsonLd = () => {
 				"publisher": {
 					"@type": "Person",
 					"name": "Antonio Feregrino",
-					"url": "https://feregri.no"
+					"url": SITE_CANONICAL
 				},
 				"mainEntityOfPage": {
 					"@type": "WebPage",
@@ -47,7 +49,7 @@ const generateJsonLd = () => {
 				"@type": "Person",
 				"name": "Antonio Feregrino",
 				"description": data.biography,
-				"url": "https://feregri.no",
+				"url": SITE_CANONICAL,
 				"sameAs": [
 					"https://github.com/fferegrino",
 					"https://www.linkedin.com/in/antonioferegrino/",
@@ -67,17 +69,12 @@ const generateJsonLd = () => {
 				"@type": "WebSite",
 				"name": "feregri.no",
 				"description": "Antonio Feregrino's personal blog about MLOps, data science, and software development",
-				"url": "https://feregri.no",
+				"url": SITE_CANONICAL,
 				"author": {
 					"@type": "Person",
 					"name": "Antonio Feregrino"
 				},
-				"inLanguage": "en",
-				"potentialAction": {
-					"@type": "SearchAction",
-					"target": "https://feregri.no/search?q={search_term_string}",
-					"query-input": "required name=search_term_string"
-				}
+				"inLanguage": "en"
 			};
 		
 		default:
