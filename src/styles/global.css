@@ -7,11 +7,6 @@ html {
   transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
-/* Ensure smooth transitions for all theme-related properties */
-* {
-  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out;
-}
-
 /* Theme toggle specific styles */
 .theme-toggle button {
   position: relative;

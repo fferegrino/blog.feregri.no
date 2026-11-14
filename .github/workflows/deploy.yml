@@ -10,4 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: curl request
-        run: curl -X POST -d {} https://api.netlify.com/build_hooks/640272c78eee832f8f0c7656
+        env:
+          NETLIFY_BUILD_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+        run: |
+          if [ -z "$NETLIFY_BUILD_HOOK" ]; then
+            echo "NETLIFY_BUILD_HOOK secret is not set"
+            exit 1
+          fi
+          curl -X POST -d {} "$NETLIFY_BUILD_HOOK"

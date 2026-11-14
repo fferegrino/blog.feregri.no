@@ -94,7 +94,7 @@ const description = "Some photos of things I collect, from football shirts, to e
 	"@type": "CollectionPage",
 	"name": "Photo Gallery",
 	"description": "Explore my photography collections showcasing moments and places that have captured my attention. High-quality photo galleries with detailed captions and professional photography.",
-	"url": "https://feregri.no/collection",
+	"url": "https://blog.feregri.no/collection",
 	"mainEntity": {
 		"@type": "ItemList",
 		"name": "Photography Collections",
@@ -107,7 +107,7 @@ const description = "Some photos of things I collect, from football shirts, to e
 				"@type": "ImageGallery",
 				"name": gallery.data.title,
 				"description": gallery.data.description,
-				"url": `https://feregri.no/collection/${gallery.slug}`,
+				"url": `https://blog.feregri.no/collection/${gallery.slug}`,
 				"image": gallery.data.thumbnail,
 				"datePublished": gallery.data.date?.toISOString(),
 				"author": {
@@ -120,12 +120,12 @@ const description = "Some photos of things I collect, from football shirts, to e
 	"author": {
 		"@type": "Person",
 		"name": "Antonio Feregrino",
-		"url": "https://feregri.no"
+		"url": "https://blog.feregri.no"
 	},
 	"publisher": {
 		"@type": "Organization",
 		"name": "feregri.no",
-		"url": "https://feregri.no"
+		"url": "https://blog.feregri.no"
 	}
 })} />
 

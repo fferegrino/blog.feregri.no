@@ -1,14 +1,10 @@
 ---
-import { BIOGRAPHY } from '../../consts';
 import projects  from './projects';
 import Layout from '../../layouts/Layout.astro';
 import Container from '../../components/Container.astro';
 import ProjectEntry from '../../components/ProjectEntry';
 
-
-
-
-const sortedProjects = projects.sort((a, b) => b.data.priority - a.data.priority);
+const sortedProjects = [...projects].sort((a, b) => b.data.priority - a.data.priority);
 
 const fullText = "These are some of the projects I've worked on, most of them inspired by my career as a content creator. Some of these projects are still in active development and are open-source.";
 const description = "Here are some of the projects I've worked on, most of them inspired by my career as a content creator. Some of them are still in active development"; 

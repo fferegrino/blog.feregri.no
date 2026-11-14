@@ -13,7 +13,7 @@ export async function getStaticPaths() {
 
 const { gallery }: { gallery: any } = Astro.props;
 
-const lightboxTransform =  ['w-0.5'];
+const lightboxTransform = ['w-1600', 'q-80'];
 const defaultGalleryTransforms = ['w-800'];
 const socialTransforms = [
     "w-1200",
@@ -25,14 +25,14 @@ const socialTransforms = [
 function getFinalUrl(url: string, transformations: string[]) {
     const urlParts = url.split('?');
     const urlWithoutQueryString = urlParts[0];
-    let finalUrl = urlWithoutQueryString;
-    if (urlParts.length > 1) {
-        const queryString = urlParts[1];
-        const queryParams = new URLSearchParams(queryString);
-        const updatedAt = queryParams.get('updatedAt');
-        finalUrl = `${urlWithoutQueryString}?updatedAt=${updatedAt}&tr=${transformations.join(',')}`;
+    const queryParams = new URLSearchParams(urlParts[1] || '');
+    const search = new URLSearchParams();
+    const updatedAt = queryParams.get('updatedAt');
+    if (updatedAt) {
+        search.set('updatedAt', updatedAt);
     }
-    return finalUrl;
+    search.set('tr', transformations.join(','));
+    return `${urlWithoutQueryString}?${search.toString()}`;
 }
 
 const { Content } = await gallery.render();
@@ -176,7 +176,7 @@ const { Content } = await gallery.render();
 	"author": {
 		"@type": "Person",
 		"name": "Antonio Feregrino",
-		"url": "https://feregri.no"
+		"url": "https://blog.feregri.no"
 	},
 	"image": gallery.data.images.map((img, index) => ({
 		"@type": "ImageObject",
@@ -195,7 +195,7 @@ const { Content } = await gallery.render();
 	"publisher": {
 		"@type": "Organization",
 		"name": "feregri.no",
-		"url": "https://feregri.no"
+		"url": "https://blog.feregri.no"
 	}
 })} />
 
@@ -208,13 +208,13 @@ const { Content } = await gallery.render();
 			"@type": "ListItem",
 			"position": 1,
 			"name": "Home",
-			"item": "https://feregri.no"
+			"item": "https://blog.feregri.no"
 		},
 		{
 			"@type": "ListItem",
 			"position": 2,
 			"name": "Gallery",
-			"item": "https://feregri.no/collection"
+			"item": "https://blog.feregri.no/collection"
 		},
 		{
 			"@type": "ListItem",
@@ -230,14 +230,14 @@ const { Content } = await gallery.render();
     function innerGetFinalUrl(url, transformations) {
         const urlParts = url.split('?');
         const urlWithoutQueryString = urlParts[0];
-        let finalUrl = urlWithoutQueryString;
-        if (urlParts.length > 1) {
-            const queryString = urlParts[1];
-            const queryParams = new URLSearchParams(queryString);
-            const updatedAt = queryParams.get('updatedAt');
-            finalUrl = `${urlWithoutQueryString}?updatedAt=${updatedAt}&tr=${transformations.join(',')}`;
+        const queryParams = new URLSearchParams(urlParts[1] || '');
+        const search = new URLSearchParams();
+        const updatedAt = queryParams.get('updatedAt');
+        if (updatedAt) {
+            search.set('updatedAt', updatedAt);
         }
-        return finalUrl;
+        search.set('tr', transformations.join(','));
+        return `${urlWithoutQueryString}?${search.toString()}`;
     }
 
     // Lightbox functionality

@@ -1,9 +1,8 @@
 ---
-import { BIOGRAPHY } from '../../consts';
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Container from '../../components/Container.astro';
-import BookReview from '../../components/BookReview';
+import BookReview from '../../components/BookReview.astro';
 import slugify from 'slugify';
 
 const bookshelf = (await getCollection('bookshelf'));
