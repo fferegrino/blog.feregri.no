@@ -36,7 +36,7 @@ export const SOCIALS = [
     },
     {
         name: "YouTube",
-        url: "https://www.youtube.com/@feregrino",
+        url: "https://www.youtube.com/@feregri_no",
         icon: "youtube"
     }
 ];
